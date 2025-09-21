@@ -1,0 +1,179 @@
+BOOK REVIEW PROJECT
+--------------------
+PROMPT 1: Act as a product manager, Ask me relevate question for a cloud based product which is detailed below - 
+
+Product Summary
+Develop a minimal yet functional book review platform (UI and Backend) with basic user authentication, CRUD operations for book reviews, rating aggregation, and a basic recommendation feature.
+
+Product Core Features and Requirements:
+
+1. User Authentication
+
+· Signup/Login/Logout (email + password)
+ - Use token-based authentication (e.g., JWT)
+ - Data model: User ID, email, hashed password (1-way encrypted), name
+
+2. Books Listing & Search
+· Users should be able to:
+ - View a paginated list of all books
+ - Search books by title or author
+ - Data model: Book ID, title, author, description, cover image (URL), genres, published year
+
+3. Reviews & Ratings (CRUD)
+· Users can:
+ - Create, read, update, delete their own reviews
+ - Rate books on a 1–5 scale
+ - Data model: Review ID, book ID, user ID, text, rating (1–5), timestamp
+
+4. Average Rating Calculation:
+· Each book should display:
+ - Average rating (rounded to 1 decimal)
+ - Total number of reviews
+ - Automatically updated when a review is added/edited/deleted
+
+5. User Profile:
+· Shows:
+ - List of reviews written
+ - Favourite books (user can mark/unmark)
+
+6. Recommendations
+· Return a list of books the user may like based on:
+ - Top-rated books (default for MVP)
+ - Books similar to user's favourites or genres
+ - Use LLM based service APIs like OpenAI to provide recommendations.
+
+PROMPT 2: Give response to the questions asked
+
+PROMPT 3: Write the business product requirement document (PRD) of this product in a file "business.prd.md" under spec folder. 
+ The format of the business PDD file should be as follows:
+  - Requirement Id
+  - Description
+  - User Stories
+  - Success criteria
+  - Business KPIs
+DO NOT IMPLEMENT anything for now
+
+PROMPT 4: Change the requirement Ids, so that they appear sorted in the list e.g. 001_AUTH, 002_BOOK etc.
+	
+PROMPT 5 in a new window: Act as a solutions cum technical architect, ask me technical questions related to the business PRD attached.
+DO NOT IMPLEMENT anything for now
+@Context - business.prd.md
+
+PROMPT 5.1: Recoemmend the technologies. I am comfortable React for the frontend, python related tech for the middleware and postgres for db. Update the technical.prd.md file with the recommendation.
+
+PROMPT 6: Response to the questions 
+
+Analyze everything so far and create a technical PRD and save it in "technical.prd.md" file within specs folder. Keep the reference of requirement Ids in business PRD wherever needed.
+Technical PRD should have following sections - 
+ - Technical architecture
+ - Technical requirement - starting with 001, 002 etc. 
+ - System Architecture
+ etc. etc.
+DO NOT IMPLEMENT anything for now
+
+PROMPT 7 (ref: business and technical PRDs): Act as a technical business analyst, and create logical tasks (10 tasks maximum) which could be implemented sequentially and independently. Put the tasks under a new folder called tasks and name them like 001_<task short code>.md, 002_<task short code>.md etc. so that they are ordered in the list. 
+DO NOT implement the code yet.
+
+PROMPT 8: I have to start implementing each task in tasks folder and run it in the local machine. Please suggest what setup do I need to have everything running on my local machine (Macbook Pro). Assume that I do not have any setup done.
+Put all the steps which I need to do in localmachinesetup.md under a new folder called setup
+
+PROMPT 9:
+I would like to implement the tasks mentioned under tasks one by one. I would like to put the progress under a file "progress.md" file. 
+Implement first task as mentioned in 001_DB_SETUP.md under tasks folder
+Create the files under suitable folder under apps folder
+Busines PRD and Technical PRD are attached 
+Update the progress.md file once task is complete. Please note, I may revert progress.md file to the previous version if I am satisfied with the changes
+
+PROMPT 10:
+Can you create the testcases for testing the database setup?
+Make sure the tests do not alter the DB structure or the data
+
+PROMPT 11: 
+Can you run the tests and share the results?
+the environment is already setup as per localmachinesetup.md under setup folder. You can sun the command to create the virtual environment based on the present directory
+
+PROMPT 12:
+Act as a senior python developer.
+I want to implement 002_AUTH_SERVICE (Business and technical PRDs arr attached). Create the tests also, which we can run to test the service. This service will be used by frontend eveually later
+Create the files under suitable folder under apps folder
+Update the progress.md file once task is complete. Please note, I may revert progress.md file to the previous version if I am satisfied with the changes
+
+PROMPT 12.1
+Can you run the tests and share the results?
+the environment is already setup as per localmachinesetup.md under setup folder. You can sun the command to create the virtual environment based on the present directory
+
+
+PROMPT 13:
+Act as a senior python developer.
+I want to implement 003_BOOK_SERVICE (Business and technical PRDs arr attached). Create the tests also, which we can run to test the service. This service will be used by frontend eveually later
+Create the files under suitable folder under apps folder
+Update the progress.md file once task is complete. Please note, I may revert progress.md file to the previous version if I am satisfied with the changes
+
+PROMPT 13.1:
+Can you run the tests and share the results?
+the environment is already setup as per localmachinesetup.md under setup folder. You can sun the command to create the virtual environment based on the present directory
+
+PROMPT 14:
+Act as a senior python developer.
+I want to implement 004_REVIEW_SERVICE (Business and technical PRDs arr attached). Create the tests also, which we can run to test the service. This service will be used by frontend eveually later
+Create the files under suitable folder under apps folder
+Update the progress.md file once task is complete. Please note, I may revert progress.md file to the previous version if I am satisfied with the changes
+
+PROMPT 14.1:
+Can you run the tests and share the results?
+the environment is already setup as per localmachinesetup.md under setup folder. You can sun the command to create the virtual environment based on the present directory
+
+PROMPT 14.2:
+Create the service documentation which used be used by frontend to integrate it with
+
+PROMPT 15:
+Act as a senior python developer.
+I want to implement 005_STORAGE_SERVICE (Business and technical PRDs arr attached). Create the tests also, which we can run to test the service. This service will be used by frontend eveually later
+Create the files under suitable folder under apps folder
+Update the progress.md file once task is complete. Please note, I may revert progress.md file to the previous version if I am satisfied with the changes
+
+PROMPT 15.1:
+Can you run the tests and share the results?
+the environment is already setup as per localmachinesetup.md under setup folder. You can sun the command to create the virtual environment based on the present directory
+
+PROMPT 15.2:
+Create the service documentation which used be used by frontend to integrate it with
+
+PROMPT 16:
+Act as a senior python developer.
+I want to implement 006_PROFILE_SERVICE (Business and technical PRDs arr attached). Create the tests also, which we can run to test the service. This service will be used by frontend eveually later
+Create the files under suitable folder under apps folder
+Update the progress.md file once task is complete. Please note, I may revert progress.md file to the previous version if I am satisfied with the changes
+
+PROMPT 16.1:
+Can you run the tests and share the results? Fix the errors including warnings without asking me in no more than 10 iterations.
+the environment is already setup as per localmachinesetup.md under setup folder. You can sun the command to create the virtual environment based on the present directory
+
+PROMPT 16.2:
+Create the service documentation which used be used by frontend to integrate it with
+
+PROMPT 17:
+Act as a senior python developer.
+I want to implement 007_RECOMMEND_SERVICE (Business and technical PRDs arr attached). Create the tests also, which we can run to test the service. This service will be used by frontend eveually later
+Create the files under suitable folder under apps folder. Please note I have not configured the OPENAPI Key. Please try to write the code and tests without it
+Update the progress.md file once task is complete. Please note, I may revert progress.md file to the previous version if I am satisfied with the changes
+
+PROMPT 17.1:
+Can you run the tests and share the results? Fix the errors including warnings without asking me in no more than 10 iterations.
+the environment is already setup as per localmachinesetup.md under setup folder. You can sun the command to create the virtual environment based on the present directory
+
+PROMPT 17.2:
+Create the service documentation which used be used by frontend to integrate it with
+
+PROMPT 18:
+Please keep all the services running. I have another project for frontend which will use this service to implement all features on the UI. 
+I will use the api documentation to connect to the service.
+
+
+PROMPT 19:
+Can you implement user session logout functionality? It should invalidate the user session. Write the testcases to validate the functionality.
+Also,update auth_api.md file for this and the progress.md too.
+
+
+
+

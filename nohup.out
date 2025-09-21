@@ -1,0 +1,1499 @@
+INFO:     Will watch for changes in these directories: ['/Users/shivs/Documents/Talentica/ailearning/book-review-backend']
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     Started reloader process [7041] using WatchFiles
+INFO:app.db.session:Connecting to database: book_review on localhost:5432
+INFO:app.db.session:Using database URL: postgresql://postgres:postgres@localhost:5432/book_review
+INFO:app.db.session:Testing database connection...
+INFO:app.db.session:Connected to database: book_review as user: postgres using schema: public
+INFO:app.db.session:Search path set to: public
+INFO:app.db.session:Database connection established successfully
+INFO:     Started server process [7114]
+INFO:     Waiting for application startup.
+INFO:app.main:Database Configuration:
+INFO:app.main:  Host: localhost
+INFO:app.main:  Port: 5432
+INFO:app.main:  Database: book_review
+INFO:app.main:  User: postgres
+INFO:app.main:  URL: postgresql://postgres:postgres@localhost:5432/book_review
+INFO:app.db.session:Creating new database session
+INFO:app.db.session:Testing session connection...
+INFO:app.db.session:Session connected to database: book_review as user: postgres using schema: public
+INFO:app.db.session:Session search_path: public
+INFO:app.db.session:Closing database session
+INFO:app.main:Successfully connected to database:
+INFO:app.main:  Database: book_review
+INFO:app.main:  User: postgres
+INFO:app.main:  Schema: public
+INFO:app.main:Found 48 books in database
+INFO:     Application startup complete.
+INFO:     127.0.0.1:64127 - "OPTIONS /auth/login HTTP/1.1" 200 OK
+INFO:app.db.session:Creating new database session
+INFO:app.db.session:Testing session connection...
+INFO:app.db.session:Session connected to database: book_review as user: postgres using schema: public
+INFO:app.db.session:Session search_path: public
+INFO:app.db.session:Closing database session
+WARNING:passlib.handlers.bcrypt:(trapped) error reading bcrypt version
+Traceback (most recent call last):
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/passlib/handlers/bcrypt.py", line 620, in _load_backend_mixin
+    version = _bcrypt.__about__.__version__
+              ^^^^^^^^^^^^^^^^^
+AttributeError: module 'bcrypt' has no attribute '__about__'
+INFO:     127.0.0.1:64127 - "POST /auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64127 - "OPTIONS /v1/books?search=&sortBy=title&sortOrder=asc&offset=0&limit=20 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64129 - "OPTIONS /v1/books?search=&sortBy=title&sortOrder=asc&offset=0&limit=20 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64127 - "GET /v1/books?search=&sortBy=title&sortOrder=asc&offset=0&limit=20 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:64127 - "GET /v1/books?search=&sortBy=title&sortOrder=asc&offset=0&limit=20 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:64127 - "OPTIONS /v1/books/?search=&sortBy=title&sortOrder=asc&offset=0&limit=20 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64129 - "OPTIONS /v1/books/?search=&sortBy=title&sortOrder=asc&offset=0&limit=20 HTTP/1.1" 200 OK
+INFO:app.db.session:Creating new database session
+INFO:app.db.session:Testing session connection...
+INFO:app.db.session:Session connected to database: book_review as user: postgres using schema: public
+INFO:app.db.session:Session search_path: "$user", public
+INFO:app.db.session:Closing database session
+INFO:app.api.book:Endpoint received: sort_by=title, sort_order=asc
+INFO:app.services.book:Fetching books with params: search='' sort_by='title' sort_order='asc' offset=0 limit=20 page=None items_per_page=20
+INFO:app.services.book:Direct SQL count from books table: 48
+INFO:app.services.book:Sample books from direct SQL:
+INFO:app.services.book:  Book 2: The Midnight Library
+INFO:app.services.book:  Book 3: Where the Crawdads Sing
+INFO:app.services.book:  Book 4: The Seven Husbands of Evelyn Hugo
+INFO:app.services.book:Initial SQLAlchemy query: SELECT books.id AS books_id, books.title AS books_title, books.author AS books_author, books.isbn AS books_isbn, books.publication_date AS books_publication_date, books.average_rating AS books_average_rating, books.total_reviews AS books_total_reviews, books.created_at AS books_created_at, books.genres AS books_genres 
+FROM books
+INFO:app.services.book:Sorting by column: title -> Book.title
+INFO:app.services.book:Applying ASC order
+INFO:app.services.book:Query after sorting: SELECT books.id AS books_id, books.title AS books_title, books.author AS books_author, books.isbn AS books_isbn, books.publication_date AS books_publication_date, books.average_rating AS books_average_rating, books.total_reviews AS books_total_reviews, books.created_at AS books_created_at, books.genres AS books_genres 
+FROM books ORDER BY books.title ASC
+Total count: 48, Results: 20
+First few results: ['1984', 'A Brief History of Time', 'A Game of Thrones']
+INFO:     127.0.0.1:64131 - "GET /v1/books/?search=&sortBy=title&sortOrder=asc&offset=0&limit=20 HTTP/1.1" 200 OK
+INFO:app.db.session:Creating new database session
+INFO:app.db.session:Testing session connection...
+INFO:app.db.session:Session connected to database: book_review as user: postgres using schema: public
+INFO:app.db.session:Session search_path: "$user", public
+INFO:app.db.session:Closing database session
+INFO:app.api.book:Endpoint received: sort_by=title, sort_order=asc
+INFO:app.services.book:Fetching books with params: search='' sort_by='title' sort_order='asc' offset=0 limit=20 page=None items_per_page=20
+INFO:app.services.book:Direct SQL count from books table: 48
+INFO:app.services.book:Sample books from direct SQL:
+INFO:app.services.book:  Book 2: The Midnight Library
+INFO:app.services.book:  Book 3: Where the Crawdads Sing
+INFO:app.services.book:  Book 4: The Seven Husbands of Evelyn Hugo
+INFO:app.services.book:Initial SQLAlchemy query: SELECT books.id AS books_id, books.title AS books_title, books.author AS books_author, books.isbn AS books_isbn, books.publication_date AS books_publication_date, books.average_rating AS books_average_rating, books.total_reviews AS books_total_reviews, books.created_at AS books_created_at, books.genres AS books_genres 
+FROM books
+INFO:app.services.book:Sorting by column: title -> Book.title
+INFO:app.services.book:Applying ASC order
+INFO:app.services.book:Query after sorting: SELECT books.id AS books_id, books.title AS books_title, books.author AS books_author, books.isbn AS books_isbn, books.publication_date AS books_publication_date, books.average_rating AS books_average_rating, books.total_reviews AS books_total_reviews, books.created_at AS books_created_at, books.genres AS books_genres 
+FROM books ORDER BY books.title ASC
+Total count: 48, Results: 20
+First few results: ['1984', 'A Brief History of Time', 'A Game of Thrones']
+INFO:     127.0.0.1:64129 - "GET /v1/books/?search=&sortBy=title&sortOrder=asc&offset=0&limit=20 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64155 - "OPTIONS /v1/reviews?book_id=33&page=1&sort_by=date&sort_order=desc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64156 - "OPTIONS /v1/reviews?book_id=33&page=1&sort_by=date&sort_order=desc HTTP/1.1" 200 OK
+INFO:app.db.session:Creating new database session
+INFO:app.db.session:Testing session connection...
+INFO:app.db.session:Session connected to database: book_review as user: postgres using schema: public
+INFO:app.db.session:Session search_path: "$user", public
+INFO:app.db.session:Closing database session
+INFO:     127.0.0.1:64155 - "GET /v1/reviews?book_id=33&page=1&sort_by=date&sort_order=desc HTTP/1.1" 200 OK
+INFO:app.db.session:Creating new database session
+INFO:app.db.session:Testing session connection...
+INFO:app.db.session:Session connected to database: book_review as user: postgres using schema: public
+INFO:app.db.session:Session search_path: "$user", public
+INFO:app.db.session:Closing database session
+INFO:     127.0.0.1:64155 - "GET /v1/reviews?book_id=33&page=1&sort_by=date&sort_order=desc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64229 - "OPTIONS /v1/reviews HTTP/1.1" 200 OK
+INFO:app.db.session:Creating new database session
+INFO:app.db.session:Testing session connection...
+INFO:app.db.session:Session connected to database: book_review as user: postgres using schema: public
+INFO:app.db.session:Session search_path: "$user", public
+INFO:app.db.session:Closing database session
+INFO:     127.0.0.1:64229 - "POST /v1/reviews HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/uvicorn/protocols/http/httptools_impl.py", line 409, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        self.scope, self.receive, self.send
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/uvicorn/middleware/proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/fastapi/applications.py", line 1054, in __call__
+    await super().__call__(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/applications.py", line 113, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/middleware/errors.py", line 186, in __call__
+    raise exc
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/middleware/cors.py", line 93, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/middleware/cors.py", line 144, in simple_response
+    await self.app(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/routing.py", line 716, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/routing.py", line 736, in app
+    await route.handle(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/routing.py", line 290, in handle
+    await self.app(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/routing.py", line 78, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/routing.py", line 75, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/fastapi/routing.py", line 328, in app
+    content = await serialize_response(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+    )
+    ^
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/fastapi/routing.py", line 177, in serialize_response
+    raise ResponseValidationError(
+        errors=_normalize_errors(errors), body=response_content
+    )
+fastapi.exceptions.ResponseValidationError: 1 validation errors:
+  {'type': 'missing', 'loc': ('response', 'can_edit'), 'msg': 'Field required', 'input': <app.db.models.Review object at 0x104511e80>}
+
+INFO:app.db.session:Creating new database session
+INFO:app.db.session:Testing session connection...
+INFO:app.db.session:Session connected to database: book_review as user: postgres using schema: public
+INFO:app.db.session:Session search_path: "$user", public
+INFO:app.db.session:Closing database session
+INFO:     127.0.0.1:64470 - "GET /v1/reviews?book_id=33&page=1&sort_by=date&sort_order=desc HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/uvicorn/protocols/http/httptools_impl.py", line 409, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        self.scope, self.receive, self.send
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/uvicorn/middleware/proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/fastapi/applications.py", line 1054, in __call__
+    await super().__call__(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/applications.py", line 113, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/middleware/errors.py", line 186, in __call__
+    raise exc
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/middleware/cors.py", line 93, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/middleware/cors.py", line 144, in simple_response
+    await self.app(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/routing.py", line 716, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/routing.py", line 736, in app
+    await route.handle(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/routing.py", line 290, in handle
+    await self.app(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/routing.py", line 78, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/routing.py", line 75, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/fastapi/routing.py", line 328, in app
+    content = await serialize_response(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+    )
+    ^
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/fastapi/routing.py", line 182, in serialize_response
+    return field.serialize(
+           ~~~~~~~~~~~~~~~^
+        value,
+        ^^^^^^
+    ...<5 lines>...
+        exclude_none=exclude_none,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/fastapi/_compat.py", line 152, in serialize
+    return self._type_adapter.dump_python(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        value,
+        ^^^^^^
+    ...<6 lines>...
+        exclude_none=exclude_none,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/pydantic/type_adapter.py", line 572, in dump_python
+    return self.serializer.to_python(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        instance,
+        ^^^^^^^^^
+    ...<11 lines>...
+        context=context,
+        ^^^^^^^^^^^^^^^^
+    )
+    ^
+pydantic_core._pydantic_core.PydanticSerializationError: Unable to serialize unknown type: <class 'app.db.models.Review'>
+INFO:app.db.session:Creating new database session
+INFO:app.db.session:Testing session connection...
+INFO:app.db.session:Session connected to database: book_review as user: postgres using schema: public
+INFO:app.db.session:Session search_path: "$user", public
+INFO:app.db.session:Closing database session
+INFO:     127.0.0.1:64472 - "GET /v1/reviews?book_id=33&page=1&sort_by=date&sort_order=desc HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/uvicorn/protocols/http/httptools_impl.py", line 409, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        self.scope, self.receive, self.send
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/uvicorn/middleware/proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/fastapi/applications.py", line 1054, in __call__
+    await super().__call__(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/applications.py", line 113, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/middleware/errors.py", line 186, in __call__
+    raise exc
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/middleware/cors.py", line 93, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/middleware/cors.py", line 144, in simple_response
+    await self.app(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/routing.py", line 716, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/routing.py", line 736, in app
+    await route.handle(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/routing.py", line 290, in handle
+    await self.app(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/routing.py", line 78, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/routing.py", line 75, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/fastapi/routing.py", line 328, in app
+    content = await serialize_response(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+    )
+    ^
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/fastapi/routing.py", line 182, in serialize_response
+    return field.serialize(
+           ~~~~~~~~~~~~~~~^
+        value,
+        ^^^^^^
+    ...<5 lines>...
+        exclude_none=exclude_none,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/fastapi/_compat.py", line 152, in serialize
+    return self._type_adapter.dump_python(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        value,
+        ^^^^^^
+    ...<6 lines>...
+        exclude_none=exclude_none,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/pydantic/type_adapter.py", line 572, in dump_python
+    return self.serializer.to_python(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        instance,
+        ^^^^^^^^^
+    ...<11 lines>...
+        context=context,
+        ^^^^^^^^^^^^^^^^
+    )
+    ^
+pydantic_core._pydantic_core.PydanticSerializationError: Unable to serialize unknown type: <class 'app.db.models.Review'>
+INFO:app.db.session:Creating new database session
+INFO:app.db.session:Testing session connection...
+INFO:app.db.session:Session connected to database: book_review as user: postgres using schema: public
+INFO:app.db.session:Session search_path: "$user", public
+INFO:app.db.session:Closing database session
+INFO:     127.0.0.1:64602 - "POST /v1/reviews HTTP/1.1" 400 Bad Request
+INFO:app.db.session:Creating new database session
+INFO:app.db.session:Testing session connection...
+INFO:app.db.session:Session connected to database: book_review as user: postgres using schema: public
+INFO:app.db.session:Session search_path: "$user", public
+INFO:app.db.session:Closing database session
+INFO:     127.0.0.1:50533 - "POST /auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50533 - "GET /v1/books?search=&sortBy=title&sortOrder=asc&offset=0&limit=20 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:50533 - "GET /v1/books?search=&sortBy=title&sortOrder=asc&offset=0&limit=20 HTTP/1.1" 307 Temporary Redirect
+INFO:app.db.session:Creating new database session
+INFO:app.db.session:Testing session connection...
+INFO:app.db.session:Session connected to database: book_review as user: postgres using schema: public
+INFO:app.db.session:Session search_path: "$user", public
+INFO:app.db.session:Closing database session
+INFO:app.api.book:Endpoint received: sort_by=title, sort_order=asc
+INFO:app.services.book:Fetching books with params: search='' sort_by='title' sort_order='asc' offset=0 limit=20 page=None items_per_page=20
+INFO:app.services.book:Direct SQL count from books table: 48
+INFO:app.services.book:Sample books from direct SQL:
+INFO:app.services.book:  Book 2: The Midnight Library
+INFO:app.services.book:  Book 3: Where the Crawdads Sing
+INFO:app.services.book:  Book 4: The Seven Husbands of Evelyn Hugo
+INFO:app.services.book:Initial SQLAlchemy query: SELECT books.id AS books_id, books.title AS books_title, books.author AS books_author, books.isbn AS books_isbn, books.publication_date AS books_publication_date, books.average_rating AS books_average_rating, books.total_reviews AS books_total_reviews, books.created_at AS books_created_at, books.genres AS books_genres 
+FROM books
+INFO:app.services.book:Sorting by column: title -> Book.title
+INFO:app.services.book:Applying ASC order
+INFO:app.services.book:Query after sorting: SELECT books.id AS books_id, books.title AS books_title, books.author AS books_author, books.isbn AS books_isbn, books.publication_date AS books_publication_date, books.average_rating AS books_average_rating, books.total_reviews AS books_total_reviews, books.created_at AS books_created_at, books.genres AS books_genres 
+FROM books ORDER BY books.title ASC
+Total count: 48, Results: 20
+First few results: ['1984', 'A Brief History of Time', 'A Game of Thrones']
+INFO:     127.0.0.1:50533 - "GET /v1/books/?search=&sortBy=title&sortOrder=asc&offset=0&limit=20 HTTP/1.1" 200 OK
+INFO:app.db.session:Creating new database session
+INFO:app.db.session:Testing session connection...
+INFO:app.db.session:Session connected to database: book_review as user: postgres using schema: public
+INFO:app.db.session:Session search_path: "$user", public
+INFO:app.db.session:Closing database session
+INFO:app.api.book:Endpoint received: sort_by=title, sort_order=asc
+INFO:app.services.book:Fetching books with params: search='' sort_by='title' sort_order='asc' offset=0 limit=20 page=None items_per_page=20
+INFO:app.services.book:Direct SQL count from books table: 48
+INFO:app.services.book:Sample books from direct SQL:
+INFO:app.services.book:  Book 2: The Midnight Library
+INFO:app.services.book:  Book 3: Where the Crawdads Sing
+INFO:app.services.book:  Book 4: The Seven Husbands of Evelyn Hugo
+INFO:app.services.book:Initial SQLAlchemy query: SELECT books.id AS books_id, books.title AS books_title, books.author AS books_author, books.isbn AS books_isbn, books.publication_date AS books_publication_date, books.average_rating AS books_average_rating, books.total_reviews AS books_total_reviews, books.created_at AS books_created_at, books.genres AS books_genres 
+FROM books
+INFO:app.services.book:Sorting by column: title -> Book.title
+INFO:app.services.book:Applying ASC order
+INFO:app.services.book:Query after sorting: SELECT books.id AS books_id, books.title AS books_title, books.author AS books_author, books.isbn AS books_isbn, books.publication_date AS books_publication_date, books.average_rating AS books_average_rating, books.total_reviews AS books_total_reviews, books.created_at AS books_created_at, books.genres AS books_genres 
+FROM books ORDER BY books.title ASC
+Total count: 48, Results: 20
+First few results: ['1984', 'A Brief History of Time', 'A Game of Thrones']
+INFO:     127.0.0.1:50533 - "GET /v1/books/?search=&sortBy=title&sortOrder=asc&offset=0&limit=20 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50558 - "OPTIONS /v1/reviews?book_id=7&page=1&sort_by=date&sort_order=desc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50559 - "OPTIONS /v1/reviews?book_id=7&page=1&sort_by=date&sort_order=desc HTTP/1.1" 200 OK
+INFO:app.db.session:Creating new database session
+INFO:app.db.session:Testing session connection...
+INFO:app.db.session:Session connected to database: book_review as user: postgres using schema: public
+INFO:app.db.session:Session search_path: "$user", public
+INFO:app.db.session:Closing database session
+INFO:     127.0.0.1:50558 - "GET /v1/reviews?book_id=7&page=1&sort_by=date&sort_order=desc HTTP/1.1" 200 OK
+INFO:app.db.session:Creating new database session
+INFO:app.db.session:Testing session connection...
+INFO:app.db.session:Session connected to database: book_review as user: postgres using schema: public
+INFO:app.db.session:Session search_path: "$user", public
+INFO:app.db.session:Closing database session
+INFO:     127.0.0.1:50558 - "GET /v1/reviews?book_id=7&page=1&sort_by=date&sort_order=desc HTTP/1.1" 200 OK
+INFO:app.db.session:Creating new database session
+INFO:app.db.session:Testing session connection...
+INFO:app.db.session:Session connected to database: book_review as user: postgres using schema: public
+INFO:app.db.session:Session search_path: "$user", public
+INFO:app.db.session:Closing database session
+INFO:     127.0.0.1:51210 - "POST /v1/reviews HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/uvicorn/protocols/http/httptools_impl.py", line 409, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        self.scope, self.receive, self.send
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/uvicorn/middleware/proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/fastapi/applications.py", line 1054, in __call__
+    await super().__call__(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/applications.py", line 113, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/middleware/errors.py", line 186, in __call__
+    raise exc
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/middleware/cors.py", line 93, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/middleware/cors.py", line 144, in simple_response
+    await self.app(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/routing.py", line 716, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/routing.py", line 736, in app
+    await route.handle(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/routing.py", line 290, in handle
+    await self.app(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/routing.py", line 78, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/routing.py", line 75, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/fastapi/routing.py", line 328, in app
+    content = await serialize_response(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+    )
+    ^
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/fastapi/routing.py", line 177, in serialize_response
+    raise ResponseValidationError(
+        errors=_normalize_errors(errors), body=response_content
+    )
+fastapi.exceptions.ResponseValidationError: 1 validation errors:
+  {'type': 'missing', 'loc': ('response', 'can_edit'), 'msg': 'Field required', 'input': <app.db.models.Review object at 0x1059aafd0>}
+
+WARNING:  WatchFiles detected changes in 'app/services/review.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [7114]
+INFO:app.db.session:Connecting to database: book_review on localhost:5432
+INFO:app.db.session:Using database URL: postgresql://postgres:postgres@localhost:5432/book_review
+INFO:app.db.session:Testing database connection...
+INFO:app.db.session:Connected to database: book_review as user: postgres using schema: public
+INFO:app.db.session:Search path set to: public
+INFO:app.db.session:Database connection established successfully
+INFO:     Started server process [11786]
+INFO:     Waiting for application startup.
+INFO:app.main:Database Configuration:
+INFO:app.main:  Host: localhost
+INFO:app.main:  Port: 5432
+INFO:app.main:  Database: book_review
+INFO:app.main:  User: postgres
+INFO:app.main:  URL: postgresql://postgres:postgres@localhost:5432/book_review
+INFO:app.db.session:Creating new database session
+INFO:app.db.session:Testing session connection...
+INFO:app.db.session:Session connected to database: book_review as user: postgres using schema: public
+INFO:app.db.session:Session search_path: public
+INFO:app.db.session:Closing database session
+INFO:app.main:Successfully connected to database:
+INFO:app.main:  Database: book_review
+INFO:app.main:  User: postgres
+INFO:app.main:  Schema: public
+INFO:app.main:Found 48 books in database
+INFO:     Application startup complete.
+INFO:     127.0.0.1:52664 - "OPTIONS /v1/reviews HTTP/1.1" 200 OK
+INFO:app.db.session:Creating new database session
+INFO:app.db.session:Testing session connection...
+INFO:app.db.session:Session connected to database: book_review as user: postgres using schema: public
+INFO:app.db.session:Session search_path: public
+INFO:app.db.session:Closing database session
+INFO:     127.0.0.1:52664 - "POST /v1/reviews HTTP/1.1" 400 Bad Request
+WARNING:  WatchFiles detected changes in 'app/services/review.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [11786]
+INFO:app.db.session:Connecting to database: book_review on localhost:5432
+INFO:app.db.session:Using database URL: postgresql://postgres:postgres@localhost:5432/book_review
+INFO:app.db.session:Testing database connection...
+INFO:app.db.session:Connected to database: book_review as user: postgres using schema: public
+INFO:app.db.session:Search path set to: public
+INFO:app.db.session:Database connection established successfully
+INFO:     Started server process [14055]
+INFO:     Waiting for application startup.
+INFO:app.main:Database Configuration:
+INFO:app.main:  Host: localhost
+INFO:app.main:  Port: 5432
+INFO:app.main:  Database: book_review
+INFO:app.main:  User: postgres
+INFO:app.main:  URL: postgresql://postgres:postgres@localhost:5432/book_review
+INFO:app.db.session:Creating new database session
+INFO:app.db.session:Testing session connection...
+INFO:app.db.session:Session connected to database: book_review as user: postgres using schema: public
+INFO:app.db.session:Session search_path: public
+INFO:app.db.session:Closing database session
+INFO:app.main:Successfully connected to database:
+INFO:app.main:  Database: book_review
+INFO:app.main:  User: postgres
+INFO:app.main:  Schema: public
+INFO:app.main:Found 48 books in database
+INFO:     Application startup complete.
+INFO:app.db.session:Creating new database session
+INFO:app.db.session:Testing session connection...
+INFO:app.db.session:Session connected to database: book_review as user: postgres using schema: public
+INFO:app.db.session:Session search_path: public
+INFO:app.db.session:Closing database session
+INFO:     127.0.0.1:53791 - "POST /v1/reviews HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/uvicorn/protocols/http/httptools_impl.py", line 409, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        self.scope, self.receive, self.send
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/uvicorn/middleware/proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/fastapi/applications.py", line 1054, in __call__
+    await super().__call__(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/applications.py", line 113, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/middleware/errors.py", line 186, in __call__
+    raise exc
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/middleware/cors.py", line 93, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/middleware/cors.py", line 144, in simple_response
+    await self.app(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/routing.py", line 716, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/routing.py", line 736, in app
+    await route.handle(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/routing.py", line 290, in handle
+    await self.app(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/routing.py", line 78, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/routing.py", line 75, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/fastapi/routing.py", line 328, in app
+    content = await serialize_response(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+    )
+    ^
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/fastapi/routing.py", line 177, in serialize_response
+    raise ResponseValidationError(
+        errors=_normalize_errors(errors), body=response_content
+    )
+fastapi.exceptions.ResponseValidationError: 1 validation errors:
+  {'type': 'missing', 'loc': ('response', 'can_edit'), 'msg': 'Field required', 'input': <app.db.models.Review object at 0x10e8146e0>}
+
+INFO:app.db.session:Creating new database session
+INFO:app.db.session:Testing session connection...
+INFO:app.db.session:Session connected to database: book_review as user: postgres using schema: public
+INFO:app.db.session:Session search_path: "$user", public
+INFO:app.db.session:Closing database session
+INFO:     127.0.0.1:54112 - "POST /v1/reviews HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/uvicorn/protocols/http/httptools_impl.py", line 409, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        self.scope, self.receive, self.send
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/uvicorn/middleware/proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/fastapi/applications.py", line 1054, in __call__
+    await super().__call__(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/applications.py", line 113, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/middleware/errors.py", line 186, in __call__
+    raise exc
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/middleware/cors.py", line 93, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/middleware/cors.py", line 144, in simple_response
+    await self.app(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/routing.py", line 716, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/routing.py", line 736, in app
+    await route.handle(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/routing.py", line 290, in handle
+    await self.app(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/routing.py", line 78, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/routing.py", line 75, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/fastapi/routing.py", line 328, in app
+    content = await serialize_response(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+    )
+    ^
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/fastapi/routing.py", line 177, in serialize_response
+    raise ResponseValidationError(
+        errors=_normalize_errors(errors), body=response_content
+    )
+fastapi.exceptions.ResponseValidationError: 1 validation errors:
+  {'type': 'missing', 'loc': ('response', 'can_edit'), 'msg': 'Field required', 'input': <app.db.models.Review object at 0x10e880b90>}
+
+INFO:     127.0.0.1:54911 - "OPTIONS /v1/reviews?book_id=7&page=1&sort_by=date&sort_order=desc HTTP/1.1" 200 OK
+INFO:app.db.session:Creating new database session
+INFO:app.db.session:Testing session connection...
+INFO:app.db.session:Session connected to database: book_review as user: postgres using schema: public
+INFO:app.db.session:Session search_path: "$user", public
+INFO:app.db.session:Closing database session
+INFO:     127.0.0.1:54911 - "GET /v1/reviews?book_id=7&page=1&sort_by=date&sort_order=desc HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/uvicorn/protocols/http/httptools_impl.py", line 409, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        self.scope, self.receive, self.send
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/uvicorn/middleware/proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/fastapi/applications.py", line 1054, in __call__
+    await super().__call__(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/applications.py", line 113, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/middleware/errors.py", line 186, in __call__
+    raise exc
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/middleware/cors.py", line 93, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/middleware/cors.py", line 144, in simple_response
+    await self.app(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/routing.py", line 716, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/routing.py", line 736, in app
+    await route.handle(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/routing.py", line 290, in handle
+    await self.app(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/routing.py", line 78, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/routing.py", line 75, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/fastapi/routing.py", line 328, in app
+    content = await serialize_response(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+    )
+    ^
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/fastapi/routing.py", line 182, in serialize_response
+    return field.serialize(
+           ~~~~~~~~~~~~~~~^
+        value,
+        ^^^^^^
+    ...<5 lines>...
+        exclude_none=exclude_none,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/fastapi/_compat.py", line 152, in serialize
+    return self._type_adapter.dump_python(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        value,
+        ^^^^^^
+    ...<6 lines>...
+        exclude_none=exclude_none,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/pydantic/type_adapter.py", line 572, in dump_python
+    return self.serializer.to_python(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        instance,
+        ^^^^^^^^^
+    ...<11 lines>...
+        context=context,
+        ^^^^^^^^^^^^^^^^
+    )
+    ^
+pydantic_core._pydantic_core.PydanticSerializationError: Unable to serialize unknown type: <class 'app.db.models.Review'>
+INFO:     127.0.0.1:55123 - "OPTIONS /auth/login HTTP/1.1" 200 OK
+INFO:app.db.session:Creating new database session
+INFO:app.db.session:Testing session connection...
+INFO:app.db.session:Session connected to database: book_review as user: postgres using schema: public
+INFO:app.db.session:Session search_path: "$user", public
+INFO:app.db.session:Closing database session
+WARNING:passlib.handlers.bcrypt:(trapped) error reading bcrypt version
+Traceback (most recent call last):
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/passlib/handlers/bcrypt.py", line 620, in _load_backend_mixin
+    version = _bcrypt.__about__.__version__
+              ^^^^^^^^^^^^^^^^^
+AttributeError: module 'bcrypt' has no attribute '__about__'
+INFO:     127.0.0.1:55123 - "POST /auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55123 - "OPTIONS /v1/books?search=&sortBy=title&sortOrder=asc&offset=0&limit=20 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55125 - "OPTIONS /v1/books?search=&sortBy=title&sortOrder=asc&offset=0&limit=20 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55123 - "GET /v1/books?search=&sortBy=title&sortOrder=asc&offset=0&limit=20 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:55123 - "GET /v1/books?search=&sortBy=title&sortOrder=asc&offset=0&limit=20 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:55123 - "OPTIONS /v1/books/?search=&sortBy=title&sortOrder=asc&offset=0&limit=20 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55125 - "OPTIONS /v1/books/?search=&sortBy=title&sortOrder=asc&offset=0&limit=20 HTTP/1.1" 200 OK
+INFO:app.db.session:Creating new database session
+INFO:app.db.session:Testing session connection...
+INFO:app.db.session:Session connected to database: book_review as user: postgres using schema: public
+INFO:app.db.session:Session search_path: "$user", public
+INFO:app.db.session:Closing database session
+INFO:app.api.book:Endpoint received: sort_by=title, sort_order=asc
+INFO:app.services.book:Fetching books with params: search='' sort_by='title' sort_order='asc' offset=0 limit=20 page=None items_per_page=20
+INFO:app.services.book:Direct SQL count from books table: 48
+INFO:app.services.book:Sample books from direct SQL:
+INFO:app.services.book:  Book 2: The Midnight Library
+INFO:app.services.book:  Book 3: Where the Crawdads Sing
+INFO:app.services.book:  Book 4: The Seven Husbands of Evelyn Hugo
+INFO:app.services.book:Initial SQLAlchemy query: SELECT books.id AS books_id, books.title AS books_title, books.author AS books_author, books.isbn AS books_isbn, books.publication_date AS books_publication_date, books.average_rating AS books_average_rating, books.total_reviews AS books_total_reviews, books.created_at AS books_created_at, books.genres AS books_genres 
+FROM books
+INFO:app.services.book:Sorting by column: title -> Book.title
+INFO:app.services.book:Applying ASC order
+INFO:app.services.book:Query after sorting: SELECT books.id AS books_id, books.title AS books_title, books.author AS books_author, books.isbn AS books_isbn, books.publication_date AS books_publication_date, books.average_rating AS books_average_rating, books.total_reviews AS books_total_reviews, books.created_at AS books_created_at, books.genres AS books_genres 
+FROM books ORDER BY books.title ASC
+Total count: 48, Results: 20
+First few results: ['1984', 'A Brief History of Time', 'A Game of Thrones']
+INFO:     127.0.0.1:55128 - "GET /v1/books/?search=&sortBy=title&sortOrder=asc&offset=0&limit=20 HTTP/1.1" 200 OK
+INFO:app.db.session:Creating new database session
+INFO:app.db.session:Testing session connection...
+INFO:app.db.session:Session connected to database: book_review as user: postgres using schema: public
+INFO:app.db.session:Session search_path: "$user", public
+INFO:app.db.session:Closing database session
+INFO:app.api.book:Endpoint received: sort_by=title, sort_order=asc
+INFO:app.services.book:Fetching books with params: search='' sort_by='title' sort_order='asc' offset=0 limit=20 page=None items_per_page=20
+INFO:app.services.book:Direct SQL count from books table: 48
+INFO:app.services.book:Sample books from direct SQL:
+INFO:app.services.book:  Book 2: The Midnight Library
+INFO:app.services.book:  Book 3: Where the Crawdads Sing
+INFO:app.services.book:  Book 4: The Seven Husbands of Evelyn Hugo
+INFO:app.services.book:Initial SQLAlchemy query: SELECT books.id AS books_id, books.title AS books_title, books.author AS books_author, books.isbn AS books_isbn, books.publication_date AS books_publication_date, books.average_rating AS books_average_rating, books.total_reviews AS books_total_reviews, books.created_at AS books_created_at, books.genres AS books_genres 
+FROM books
+INFO:app.services.book:Sorting by column: title -> Book.title
+INFO:app.services.book:Applying ASC order
+INFO:app.services.book:Query after sorting: SELECT books.id AS books_id, books.title AS books_title, books.author AS books_author, books.isbn AS books_isbn, books.publication_date AS books_publication_date, books.average_rating AS books_average_rating, books.total_reviews AS books_total_reviews, books.created_at AS books_created_at, books.genres AS books_genres 
+FROM books ORDER BY books.title ASC
+Total count: 48, Results: 20
+First few results: ['1984', 'A Brief History of Time', 'A Game of Thrones']
+INFO:     127.0.0.1:55125 - "GET /v1/books/?search=&sortBy=title&sortOrder=asc&offset=0&limit=20 HTTP/1.1" 200 OK
+INFO:app.db.session:Creating new database session
+INFO:app.db.session:Testing session connection...
+INFO:app.db.session:Session connected to database: book_review as user: postgres using schema: public
+INFO:app.db.session:Session search_path: "$user", public
+INFO:app.db.session:Closing database session
+INFO:     127.0.0.1:55161 - "GET /v1/reviews?book_id=7&page=1&sort_by=date&sort_order=desc HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/uvicorn/protocols/http/httptools_impl.py", line 409, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        self.scope, self.receive, self.send
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/uvicorn/middleware/proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/fastapi/applications.py", line 1054, in __call__
+    await super().__call__(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/applications.py", line 113, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/middleware/errors.py", line 186, in __call__
+    raise exc
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/middleware/cors.py", line 93, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/middleware/cors.py", line 144, in simple_response
+    await self.app(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/routing.py", line 716, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/routing.py", line 736, in app
+    await route.handle(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/routing.py", line 290, in handle
+    await self.app(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/routing.py", line 78, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/routing.py", line 75, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/fastapi/routing.py", line 328, in app
+    content = await serialize_response(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+    )
+    ^
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/fastapi/routing.py", line 182, in serialize_response
+    return field.serialize(
+           ~~~~~~~~~~~~~~~^
+        value,
+        ^^^^^^
+    ...<5 lines>...
+        exclude_none=exclude_none,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/fastapi/_compat.py", line 152, in serialize
+    return self._type_adapter.dump_python(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        value,
+        ^^^^^^
+    ...<6 lines>...
+        exclude_none=exclude_none,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/pydantic/type_adapter.py", line 572, in dump_python
+    return self.serializer.to_python(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        instance,
+        ^^^^^^^^^
+    ...<11 lines>...
+        context=context,
+        ^^^^^^^^^^^^^^^^
+    )
+    ^
+pydantic_core._pydantic_core.PydanticSerializationError: Unable to serialize unknown type: <class 'app.db.models.Review'>
+INFO:app.db.session:Creating new database session
+INFO:app.db.session:Testing session connection...
+INFO:app.db.session:Session connected to database: book_review as user: postgres using schema: public
+INFO:app.db.session:Session search_path: "$user", public
+INFO:app.db.session:Closing database session
+INFO:     127.0.0.1:55163 - "GET /v1/reviews?book_id=7&page=1&sort_by=date&sort_order=desc HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/uvicorn/protocols/http/httptools_impl.py", line 409, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        self.scope, self.receive, self.send
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/uvicorn/middleware/proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/fastapi/applications.py", line 1054, in __call__
+    await super().__call__(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/applications.py", line 113, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/middleware/errors.py", line 186, in __call__
+    raise exc
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/middleware/cors.py", line 93, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/middleware/cors.py", line 144, in simple_response
+    await self.app(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/routing.py", line 716, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/routing.py", line 736, in app
+    await route.handle(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/routing.py", line 290, in handle
+    await self.app(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/routing.py", line 78, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/routing.py", line 75, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/fastapi/routing.py", line 328, in app
+    content = await serialize_response(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+    )
+    ^
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/fastapi/routing.py", line 182, in serialize_response
+    return field.serialize(
+           ~~~~~~~~~~~~~~~^
+        value,
+        ^^^^^^
+    ...<5 lines>...
+        exclude_none=exclude_none,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/fastapi/_compat.py", line 152, in serialize
+    return self._type_adapter.dump_python(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        value,
+        ^^^^^^
+    ...<6 lines>...
+        exclude_none=exclude_none,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/pydantic/type_adapter.py", line 572, in dump_python
+    return self.serializer.to_python(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        instance,
+        ^^^^^^^^^
+    ...<11 lines>...
+        context=context,
+        ^^^^^^^^^^^^^^^^
+    )
+    ^
+pydantic_core._pydantic_core.PydanticSerializationError: Unable to serialize unknown type: <class 'app.db.models.Review'>
+INFO:     127.0.0.1:55241 - "OPTIONS /v1/reviews?book_id=33&page=1&sort_by=date&sort_order=desc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55243 - "OPTIONS /v1/reviews?book_id=33&page=1&sort_by=date&sort_order=desc HTTP/1.1" 200 OK
+INFO:app.db.session:Creating new database session
+INFO:app.db.session:Testing session connection...
+INFO:app.db.session:Session connected to database: book_review as user: postgres using schema: public
+INFO:app.db.session:Session search_path: "$user", public
+INFO:app.db.session:Closing database session
+INFO:     127.0.0.1:55241 - "GET /v1/reviews?book_id=33&page=1&sort_by=date&sort_order=desc HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/uvicorn/protocols/http/httptools_impl.py", line 409, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        self.scope, self.receive, self.send
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/uvicorn/middleware/proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/fastapi/applications.py", line 1054, in __call__
+    await super().__call__(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/applications.py", line 113, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/middleware/errors.py", line 186, in __call__
+    raise exc
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/middleware/cors.py", line 93, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/middleware/cors.py", line 144, in simple_response
+    await self.app(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/routing.py", line 716, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/routing.py", line 736, in app
+    await route.handle(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/routing.py", line 290, in handle
+    await self.app(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/routing.py", line 78, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/routing.py", line 75, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/fastapi/routing.py", line 328, in app
+    content = await serialize_response(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+    )
+    ^
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/fastapi/routing.py", line 182, in serialize_response
+    return field.serialize(
+           ~~~~~~~~~~~~~~~^
+        value,
+        ^^^^^^
+    ...<5 lines>...
+        exclude_none=exclude_none,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/fastapi/_compat.py", line 152, in serialize
+    return self._type_adapter.dump_python(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        value,
+        ^^^^^^
+    ...<6 lines>...
+        exclude_none=exclude_none,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/pydantic/type_adapter.py", line 572, in dump_python
+    return self.serializer.to_python(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        instance,
+        ^^^^^^^^^
+    ...<11 lines>...
+        context=context,
+        ^^^^^^^^^^^^^^^^
+    )
+    ^
+pydantic_core._pydantic_core.PydanticSerializationError: Unable to serialize unknown type: <class 'app.db.models.Review'>
+INFO:app.db.session:Creating new database session
+INFO:app.db.session:Testing session connection...
+INFO:app.db.session:Session connected to database: book_review as user: postgres using schema: public
+INFO:app.db.session:Session search_path: "$user", public
+INFO:app.db.session:Closing database session
+INFO:     127.0.0.1:55243 - "GET /v1/reviews?book_id=33&page=1&sort_by=date&sort_order=desc HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/uvicorn/protocols/http/httptools_impl.py", line 409, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        self.scope, self.receive, self.send
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/uvicorn/middleware/proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/fastapi/applications.py", line 1054, in __call__
+    await super().__call__(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/applications.py", line 113, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/middleware/errors.py", line 186, in __call__
+    raise exc
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/middleware/cors.py", line 93, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/middleware/cors.py", line 144, in simple_response
+    await self.app(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/routing.py", line 716, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/routing.py", line 736, in app
+    await route.handle(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/routing.py", line 290, in handle
+    await self.app(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/routing.py", line 78, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/routing.py", line 75, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/fastapi/routing.py", line 328, in app
+    content = await serialize_response(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+    )
+    ^
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/fastapi/routing.py", line 182, in serialize_response
+    return field.serialize(
+           ~~~~~~~~~~~~~~~^
+        value,
+        ^^^^^^
+    ...<5 lines>...
+        exclude_none=exclude_none,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/fastapi/_compat.py", line 152, in serialize
+    return self._type_adapter.dump_python(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        value,
+        ^^^^^^
+    ...<6 lines>...
+        exclude_none=exclude_none,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/pydantic/type_adapter.py", line 572, in dump_python
+    return self.serializer.to_python(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        instance,
+        ^^^^^^^^^
+    ...<11 lines>...
+        context=context,
+        ^^^^^^^^^^^^^^^^
+    )
+    ^
+pydantic_core._pydantic_core.PydanticSerializationError: Unable to serialize unknown type: <class 'app.db.models.Review'>
+INFO:app.db.session:Creating new database session
+INFO:app.db.session:Testing session connection...
+INFO:app.db.session:Session connected to database: book_review as user: postgres using schema: public
+INFO:app.db.session:Session search_path: "$user", public
+INFO:app.db.session:Closing database session
+INFO:     127.0.0.1:56075 - "GET /v1/reviews?book_id=7&page=1&sort_by=date&sort_order=desc HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/uvicorn/protocols/http/httptools_impl.py", line 409, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        self.scope, self.receive, self.send
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/uvicorn/middleware/proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/fastapi/applications.py", line 1054, in __call__
+    await super().__call__(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/applications.py", line 113, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/middleware/errors.py", line 186, in __call__
+    raise exc
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/middleware/cors.py", line 93, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/middleware/cors.py", line 144, in simple_response
+    await self.app(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/routing.py", line 716, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/routing.py", line 736, in app
+    await route.handle(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/routing.py", line 290, in handle
+    await self.app(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/routing.py", line 78, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/routing.py", line 75, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/fastapi/routing.py", line 328, in app
+    content = await serialize_response(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+    )
+    ^
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/fastapi/routing.py", line 182, in serialize_response
+    return field.serialize(
+           ~~~~~~~~~~~~~~~^
+        value,
+        ^^^^^^
+    ...<5 lines>...
+        exclude_none=exclude_none,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/fastapi/_compat.py", line 152, in serialize
+    return self._type_adapter.dump_python(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        value,
+        ^^^^^^
+    ...<6 lines>...
+        exclude_none=exclude_none,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/pydantic/type_adapter.py", line 572, in dump_python
+    return self.serializer.to_python(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        instance,
+        ^^^^^^^^^
+    ...<11 lines>...
+        context=context,
+        ^^^^^^^^^^^^^^^^
+    )
+    ^
+pydantic_core._pydantic_core.PydanticSerializationError: Unable to serialize unknown type: <class 'app.db.models.Review'>
+INFO:app.db.session:Creating new database session
+INFO:app.db.session:Testing session connection...
+INFO:app.db.session:Session connected to database: book_review as user: postgres using schema: public
+INFO:app.db.session:Session search_path: "$user", public
+INFO:app.db.session:Closing database session
+INFO:     127.0.0.1:56078 - "GET /v1/reviews?book_id=7&page=1&sort_by=date&sort_order=desc HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/uvicorn/protocols/http/httptools_impl.py", line 409, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        self.scope, self.receive, self.send
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/uvicorn/middleware/proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/fastapi/applications.py", line 1054, in __call__
+    await super().__call__(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/applications.py", line 113, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/middleware/errors.py", line 186, in __call__
+    raise exc
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/middleware/cors.py", line 93, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/middleware/cors.py", line 144, in simple_response
+    await self.app(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/routing.py", line 716, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/routing.py", line 736, in app
+    await route.handle(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/routing.py", line 290, in handle
+    await self.app(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/routing.py", line 78, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/routing.py", line 75, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/fastapi/routing.py", line 328, in app
+    content = await serialize_response(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+    )
+    ^
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/fastapi/routing.py", line 182, in serialize_response
+    return field.serialize(
+           ~~~~~~~~~~~~~~~^
+        value,
+        ^^^^^^
+    ...<5 lines>...
+        exclude_none=exclude_none,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/fastapi/_compat.py", line 152, in serialize
+    return self._type_adapter.dump_python(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        value,
+        ^^^^^^
+    ...<6 lines>...
+        exclude_none=exclude_none,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/pydantic/type_adapter.py", line 572, in dump_python
+    return self.serializer.to_python(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        instance,
+        ^^^^^^^^^
+    ...<11 lines>...
+        context=context,
+        ^^^^^^^^^^^^^^^^
+    )
+    ^
+pydantic_core._pydantic_core.PydanticSerializationError: Unable to serialize unknown type: <class 'app.db.models.Review'>
+WARNING:  WatchFiles detected changes in 'app/services/review.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [14055]
+INFO:app.db.session:Connecting to database: book_review on localhost:5432
+INFO:app.db.session:Using database URL: postgresql://postgres:postgres@localhost:5432/book_review
+INFO:app.db.session:Testing database connection...
+INFO:app.db.session:Connected to database: book_review as user: postgres using schema: public
+INFO:app.db.session:Search path set to: public
+INFO:app.db.session:Database connection established successfully
+INFO:     Started server process [17231]
+INFO:     Waiting for application startup.
+INFO:app.main:Database Configuration:
+INFO:app.main:  Host: localhost
+INFO:app.main:  Port: 5432
+INFO:app.main:  Database: book_review
+INFO:app.main:  User: postgres
+INFO:app.main:  URL: postgresql://postgres:postgres@localhost:5432/book_review
+INFO:app.db.session:Creating new database session
+INFO:app.db.session:Testing session connection...
+INFO:app.db.session:Session connected to database: book_review as user: postgres using schema: public
+INFO:app.db.session:Session search_path: public
+INFO:app.db.session:Closing database session
+INFO:app.main:Successfully connected to database:
+INFO:app.main:  Database: book_review
+INFO:app.main:  User: postgres
+INFO:app.main:  Schema: public
+INFO:app.main:Found 48 books in database
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/db/models.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [17231]
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x00000001f62660c0 (most recent call first):
+  <no Python frame>
+WARNING:  WatchFiles detected changes in 'alembic/versions/20250920_add_helpful_unhelpful_votes_to_reviews.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x00000001f62660c0 (most recent call first):
+  <no Python frame>
+WARNING:  WatchFiles detected changes in 'alembic/versions/20250920_add_helpful_unhelpful_votes_to_reviews.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x00000001f62660c0 (most recent call first):
+  <no Python frame>
+WARNING:  WatchFiles detected changes in 'alembic/versions/merge_heads_20250920.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x00000001f62660c0 (most recent call first):
+  <no Python frame>
+WARNING:  WatchFiles detected changes in 'alembic/versions/a1b2c3d4e5f6_add_helpful_unhelpful_votes_to_reviews.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x00000001f62660c0 (most recent call first):
+  <no Python frame>
+WARNING:  WatchFiles detected changes in 'alembic/versions/b7c8d9e0f1a2_merge_heads_20250920.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x00000001f62660c0 (most recent call first):
+  <no Python frame>
+WARNING:  WatchFiles detected changes in 'alembic/versions/20250920_add_helpful_unhelpful_votes_to_reviews.py', 'alembic/versions/merge_heads_20250920.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x00000001f62660c0 (most recent call first):
+  <no Python frame>
+WARNING:  WatchFiles detected changes in 'tests/test_db.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x00000001f62660c0 (most recent call first):
+  <no Python frame>
+WARNING:  WatchFiles detected changes in 'tests/test_review.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x00000001f62660c0 (most recent call first):
+  <no Python frame>
+WARNING:  WatchFiles detected changes in 'tests/test_profile.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x00000001f62660c0 (most recent call first):
+  <no Python frame>
+WARNING:  WatchFiles detected changes in 'tests/test_auth.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x00000001f62660c0 (most recent call first):
+  <no Python frame>
+WARNING:  WatchFiles detected changes in 'tests/test_recommendation.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x00000001f62660c0 (most recent call first):
+  <no Python frame>
+WARNING:  WatchFiles detected changes in 'tests/test_review.py', 'tests/test_db.py', 'tests/test_auth.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x00000001f62660c0 (most recent call first):
+  <no Python frame>
+WARNING:  WatchFiles detected changes in 'tests/test_review.py', 'tests/test_db.py', 'tests/test_auth.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x00000001f62660c0 (most recent call first):
+  <no Python frame>
+WARNING:  WatchFiles detected changes in 'tests/test_db.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x00000001f62660c0 (most recent call first):
+  <no Python frame>
+WARNING:  WatchFiles detected changes in 'tests/test_review.py', 'app/db/models.py', 'alembic/versions/b7c8d9e0f1a2_merge_heads_20250920.py', 'tests/test_auth.py', 'alembic/versions/merge_heads_20250920.py', 'tests/test_recommendation.py', 'tests/test_profile.py', 'tests/test_db.py', 'alembic/versions/20250920_add_helpful_unhelpful_votes_to_reviews.py', 'alembic/versions/a1b2c3d4e5f6_add_helpful_unhelpful_votes_to_reviews.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x00000001f62660c0 (most recent call first):
+  <no Python frame>

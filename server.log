@@ -1,0 +1,276 @@
+INFO:     Will watch for changes in these directories: ['/Users/shivs/Documents/Talentica/ailearning/book-review-backend']
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     Started reloader process [85946] using WatchFiles
+INFO:app.db.session:Connecting to database: book_review on localhost:5432
+INFO:app.db.session:Using database URL: postgresql://postgres:postgres@localhost:5432/book_review
+INFO:app.db.session:Testing database connection...
+INFO:app.db.session:Connected to database: book_review as user: postgres using schema: public
+INFO:app.db.session:Search path set to: public
+INFO:app.db.session:Database connection established successfully
+INFO:     Started server process [86027]
+INFO:     Waiting for application startup.
+INFO:app.main:Database Configuration:
+INFO:app.main:  Host: localhost
+INFO:app.main:  Port: 5432
+INFO:app.main:  Database: book_review
+INFO:app.main:  User: postgres
+INFO:app.main:  URL: postgresql://postgres:postgres@localhost:5432/book_review
+INFO:app.db.session:Creating new database session
+INFO:app.db.session:Testing session connection...
+INFO:app.db.session:Session connected to database: book_review as user: postgres using schema: public
+INFO:app.db.session:Session search_path: public
+INFO:app.db.session:Closing database session
+INFO:app.main:Successfully connected to database:
+INFO:app.main:  Database: book_review
+INFO:app.main:  User: postgres
+INFO:app.main:  Schema: public
+INFO:app.main:Found 48 books in database
+INFO:     Application startup complete.
+INFO:app.db.session:Creating new database session
+INFO:app.db.session:Testing session connection...
+INFO:app.db.session:Session connected to database: book_review as user: postgres using schema: public
+INFO:app.db.session:Session search_path: public
+INFO:app.db.session:Closing database session
+Creating review for user 85 on book 6
+ReviewService: Creating review for user 85 on book 6
+ReviewService: Updating existing review 43
+Review created successfully: 43
+INFO:     127.0.0.1:63572 - "POST /v1/reviews HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/uvicorn/protocols/http/httptools_impl.py", line 409, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        self.scope, self.receive, self.send
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/uvicorn/middleware/proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/fastapi/applications.py", line 1054, in __call__
+    await super().__call__(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/applications.py", line 113, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/middleware/errors.py", line 186, in __call__
+    raise exc
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/middleware/cors.py", line 93, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/middleware/cors.py", line 144, in simple_response
+    await self.app(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/routing.py", line 716, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/routing.py", line 736, in app
+    await route.handle(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/routing.py", line 290, in handle
+    await self.app(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/routing.py", line 78, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/starlette/routing.py", line 75, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/fastapi/routing.py", line 328, in app
+    content = await serialize_response(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+    )
+    ^
+  File "/Users/shivs/Documents/Talentica/ailearning/book-review-backend/.venv/lib/python3.13/site-packages/fastapi/routing.py", line 177, in serialize_response
+    raise ResponseValidationError(
+        errors=_normalize_errors(errors), body=response_content
+    )
+fastapi.exceptions.ResponseValidationError: 1 validation errors:
+  {'type': 'missing', 'loc': ('response', 'can_edit'), 'msg': 'Field required', 'input': <app.db.models.Review object at 0x10a43c6e0>}
+
+WARNING:  WatchFiles detected changes in 'app/api/review.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [86027]
+INFO:app.db.session:Connecting to database: book_review on localhost:5432
+INFO:app.db.session:Using database URL: postgresql://postgres:postgres@localhost:5432/book_review
+INFO:app.db.session:Testing database connection...
+INFO:app.db.session:Connected to database: book_review as user: postgres using schema: public
+INFO:app.db.session:Search path set to: public
+INFO:app.db.session:Database connection established successfully
+INFO:     Started server process [87919]
+INFO:     Waiting for application startup.
+INFO:app.main:Database Configuration:
+INFO:app.main:  Host: localhost
+INFO:app.main:  Port: 5432
+INFO:app.main:  Database: book_review
+INFO:app.main:  User: postgres
+INFO:app.main:  URL: postgresql://postgres:postgres@localhost:5432/book_review
+INFO:app.db.session:Creating new database session
+INFO:app.db.session:Testing session connection...
+INFO:app.db.session:Session connected to database: book_review as user: postgres using schema: public
+INFO:app.db.session:Session search_path: public
+INFO:app.db.session:Closing database session
+INFO:app.main:Successfully connected to database:
+INFO:app.main:  Database: book_review
+INFO:app.main:  User: postgres
+INFO:app.main:  Schema: public
+INFO:app.main:Found 48 books in database
+INFO:     Application startup complete.
+INFO:app.db.session:Creating new database session
+INFO:app.db.session:Testing session connection...
+INFO:app.db.session:Session connected to database: book_review as user: postgres using schema: public
+INFO:app.db.session:Session search_path: public
+INFO:app.db.session:Closing database session
+Creating review for user 85 on book 6
+ReviewService: Creating review for user 85 on book 6
+ReviewService: Updating existing review 43
+Review created successfully: 43
+INFO:     127.0.0.1:63858 - "POST /v1/reviews HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63858 - "GET /v1/books?search=&sortBy=title&sortOrder=asc&offset=0&limit=20 HTTP/1.1" 307 Temporary Redirect
+INFO:app.db.session:Creating new database session
+INFO:app.db.session:Testing session connection...
+INFO:app.db.session:Creating new database session
+INFO:app.db.session:Testing session connection...
+INFO:app.db.session:Session connected to database: book_review as user: postgres using schema: public
+INFO:app.db.session:Session search_path: "$user", public
+INFO:app.db.session:Closing database session
+INFO:app.db.session:Session connected to database: book_review as user: postgres using schema: public
+INFO:app.db.session:Session search_path: "$user", public
+INFO:app.db.session:Closing database session
+INFO:app.api.book:Endpoint received: sort_by=title, sort_order=asc
+INFO:app.services.book:Fetching books with params: search='' sort_by='title' sort_order='asc' offset=0 limit=20 page=None items_per_page=20
+INFO:app.services.book:Direct SQL count from books table: 48
+INFO:app.services.book:Sample books from direct SQL:
+INFO:app.services.book:  Book 1: The Midnight Library
+INFO:app.services.book:  Book 2: Where the Crawdads Sing
+INFO:app.services.book:  Book 3: The Seven Husbands of Evelyn Hugo
+INFO:app.services.book:Initial SQLAlchemy query: SELECT books.id AS books_id, books.title AS books_title, books.author AS books_author, books.isbn AS books_isbn, books.publication_date AS books_publication_date, books.average_rating AS books_average_rating, books.total_reviews AS books_total_reviews, books.created_at AS books_created_at, books.genres AS books_genres 
+FROM books
+INFO:     127.0.0.1:63860 - "GET /v1/reviews?book_id=6&page=1&sort_by=date&sort_order=desc HTTP/1.1" 200 OK
+INFO:app.services.book:Sorting by column: title -> Book.title
+INFO:app.services.book:Applying ASC order
+INFO:app.services.book:Query after sorting: SELECT books.id AS books_id, books.title AS books_title, books.author AS books_author, books.isbn AS books_isbn, books.publication_date AS books_publication_date, books.average_rating AS books_average_rating, books.total_reviews AS books_total_reviews, books.created_at AS books_created_at, books.genres AS books_genres 
+FROM books ORDER BY books.title ASC
+Total count: 48, Results: 20
+First few results: ['1984', 'A Brief History of Time', 'A Game of Thrones']
+INFO:     127.0.0.1:63858 - "GET /v1/books/?search=&sortBy=title&sortOrder=asc&offset=0&limit=20 HTTP/1.1" 200 OK
+INFO:app.db.session:Creating new database session
+INFO:app.db.session:Testing session connection...
+INFO:app.db.session:Session connected to database: book_review as user: postgres using schema: public
+INFO:app.db.session:Session search_path: "$user", public
+INFO:app.db.session:Closing database session
+Creating review for user 85 on book 6
+ReviewService: Creating review for user 85 on book 6
+ReviewService: Updating existing review 43
+Review created successfully: 43
+INFO:     127.0.0.1:64033 - "POST /v1/reviews HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64033 - "GET /v1/books?search=&sortBy=title&sortOrder=asc&offset=0&limit=20 HTTP/1.1" 307 Temporary Redirect
+INFO:app.db.session:Creating new database session
+INFO:app.db.session:Testing session connection...
+INFO:app.db.session:Session connected to database: book_review as user: postgres using schema: public
+INFO:app.db.session:Session search_path: "$user", public
+INFO:app.db.session:Closing database session
+INFO:app.db.session:Creating new database session
+INFO:app.db.session:Testing session connection...
+INFO:     127.0.0.1:64036 - "GET /v1/reviews?book_id=6&page=1&sort_by=date&sort_order=desc HTTP/1.1" 200 OK
+INFO:app.db.session:Session connected to database: book_review as user: postgres using schema: public
+INFO:app.db.session:Session search_path: "$user", public
+INFO:app.db.session:Closing database session
+INFO:app.api.book:Endpoint received: sort_by=title, sort_order=asc
+INFO:app.services.book:Fetching books with params: search='' sort_by='title' sort_order='asc' offset=0 limit=20 page=None items_per_page=20
+INFO:app.services.book:Direct SQL count from books table: 48
+INFO:app.services.book:Sample books from direct SQL:
+INFO:app.services.book:  Book 1: The Midnight Library
+INFO:app.services.book:  Book 2: Where the Crawdads Sing
+INFO:app.services.book:  Book 3: The Seven Husbands of Evelyn Hugo
+INFO:app.services.book:Initial SQLAlchemy query: SELECT books.id AS books_id, books.title AS books_title, books.author AS books_author, books.isbn AS books_isbn, books.publication_date AS books_publication_date, books.average_rating AS books_average_rating, books.total_reviews AS books_total_reviews, books.created_at AS books_created_at, books.genres AS books_genres 
+FROM books
+INFO:app.services.book:Sorting by column: title -> Book.title
+INFO:app.services.book:Applying ASC order
+INFO:app.services.book:Query after sorting: SELECT books.id AS books_id, books.title AS books_title, books.author AS books_author, books.isbn AS books_isbn, books.publication_date AS books_publication_date, books.average_rating AS books_average_rating, books.total_reviews AS books_total_reviews, books.created_at AS books_created_at, books.genres AS books_genres 
+FROM books ORDER BY books.title ASC
+Total count: 48, Results: 20
+First few results: ['1984', 'A Brief History of Time', 'A Game of Thrones']
+INFO:     127.0.0.1:64033 - "GET /v1/books/?search=&sortBy=title&sortOrder=asc&offset=0&limit=20 HTTP/1.1" 200 OK
+INFO:app.db.session:Creating new database session
+INFO:app.db.session:Testing session connection...
+INFO:app.db.session:Session connected to database: book_review as user: postgres using schema: public
+INFO:app.db.session:Session search_path: "$user", public
+INFO:app.db.session:Closing database session
+INFO:     127.0.0.1:64584 - "GET /v1/reviews?book_id=6&page=1&sort_by=date&sort_order=desc HTTP/1.1" 200 OK
+INFO:app.db.session:Creating new database session
+INFO:app.db.session:Testing session connection...
+INFO:app.db.session:Session connected to database: book_review as user: postgres using schema: public
+INFO:app.db.session:Session search_path: "$user", public
+INFO:app.db.session:Closing database session
+INFO:     127.0.0.1:64584 - "GET /v1/reviews?book_id=6&page=1&sort_by=date&sort_order=desc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64675 - "OPTIONS /v1/reviews?book_id=39&page=1&sort_by=date&sort_order=desc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64676 - "OPTIONS /v1/reviews?book_id=39&page=1&sort_by=date&sort_order=desc HTTP/1.1" 200 OK
+INFO:app.db.session:Creating new database session
+INFO:app.db.session:Testing session connection...
+INFO:app.db.session:Session connected to database: book_review as user: postgres using schema: public
+INFO:app.db.session:Session search_path: "$user", public
+INFO:app.db.session:Closing database session
+INFO:     127.0.0.1:64675 - "GET /v1/reviews?book_id=39&page=1&sort_by=date&sort_order=desc HTTP/1.1" 200 OK
+INFO:app.db.session:Creating new database session
+INFO:app.db.session:Testing session connection...
+INFO:app.db.session:Session connected to database: book_review as user: postgres using schema: public
+INFO:app.db.session:Session search_path: "$user", public
+INFO:app.db.session:Closing database session
+INFO:     127.0.0.1:64675 - "GET /v1/reviews?book_id=39&page=1&sort_by=date&sort_order=desc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64714 - "OPTIONS /v1/reviews HTTP/1.1" 200 OK
+INFO:app.db.session:Creating new database session
+INFO:app.db.session:Testing session connection...
+INFO:app.db.session:Session connected to database: book_review as user: postgres using schema: public
+INFO:app.db.session:Session search_path: "$user", public
+INFO:app.db.session:Closing database session
+Creating review for user 85 on book 39
+ReviewService: Creating review for user 85 on book 39
+ReviewService: Creating new review
+ReviewService: New review committed to database
+ReviewService: Book rating updated
+Review created successfully: 44
+INFO:     127.0.0.1:64714 - "POST /v1/reviews HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64714 - "OPTIONS /v1/books?search=&sortBy=title&sortOrder=asc&offset=0&limit=20 HTTP/1.1" 200 OK
+INFO:app.db.session:Creating new database session
+INFO:app.db.session:Testing session connection...
+INFO:     127.0.0.1:64714 - "GET /v1/books?search=&sortBy=title&sortOrder=asc&offset=0&limit=20 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:64714 - "OPTIONS /v1/books/?search=&sortBy=title&sortOrder=asc&offset=0&limit=20 HTTP/1.1" 200 OK
+INFO:app.db.session:Creating new database session
+INFO:app.db.session:Testing session connection...
+INFO:app.db.session:Session connected to database: book_review as user: postgres using schema: public
+INFO:app.db.session:Session search_path: "$user", public
+INFO:app.db.session:Closing database session
+INFO:app.db.session:Session connected to database: book_review as user: postgres using schema: public
+INFO:app.db.session:Session search_path: "$user", public
+INFO:app.db.session:Closing database session
+INFO:app.api.book:Endpoint received: sort_by=title, sort_order=asc
+INFO:app.services.book:Fetching books with params: search='' sort_by='title' sort_order='asc' offset=0 limit=20 page=None items_per_page=20
+INFO:     127.0.0.1:64716 - "GET /v1/reviews?book_id=39&page=1&sort_by=date&sort_order=desc HTTP/1.1" 200 OK
+INFO:app.services.book:Direct SQL count from books table: 48
+INFO:app.services.book:Sample books from direct SQL:
+INFO:app.services.book:  Book 1: The Midnight Library
+INFO:app.services.book:  Book 2: Where the Crawdads Sing
+INFO:app.services.book:  Book 3: The Seven Husbands of Evelyn Hugo
+INFO:app.services.book:Initial SQLAlchemy query: SELECT books.id AS books_id, books.title AS books_title, books.author AS books_author, books.isbn AS books_isbn, books.publication_date AS books_publication_date, books.average_rating AS books_average_rating, books.total_reviews AS books_total_reviews, books.created_at AS books_created_at, books.genres AS books_genres 
+FROM books
+INFO:app.services.book:Sorting by column: title -> Book.title
+INFO:app.services.book:Applying ASC order
+INFO:app.services.book:Query after sorting: SELECT books.id AS books_id, books.title AS books_title, books.author AS books_author, books.isbn AS books_isbn, books.publication_date AS books_publication_date, books.average_rating AS books_average_rating, books.total_reviews AS books_total_reviews, books.created_at AS books_created_at, books.genres AS books_genres 
+FROM books ORDER BY books.title ASC
+Total count: 48, Results: 20
+First few results: ['1984', 'A Brief History of Time', 'A Game of Thrones']
+INFO:     127.0.0.1:64723 - "GET /v1/books/?search=&sortBy=title&sortOrder=asc&offset=0&limit=20 HTTP/1.1" 200 OK
+WARNING:  WatchFiles detected changes in 'app/api/auth.py', 'tests/test_review.py', 'app/api/review.py', 'alembic/versions/12edb603d2ec_initial.py', 'app/services/review.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [87919]

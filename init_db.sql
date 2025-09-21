@@ -1,0 +1,2 @@
+DROP DATABASE IF EXISTS book_review;
+CREATE DATABASE book_review;

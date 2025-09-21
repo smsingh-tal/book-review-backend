@@ -1,0 +1,377 @@
+from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from sqlalchemy.orm import Session
+from datetime import timedelta, datetime
+from jose import JWTError, jwt
+from typing import Optional
+
+from app.core.auth import (
+    verify_password, 
+    get_password_hash, 
+    create_access_token,
+    get_current_user,
+    ACCESS_TOKEN_EXPIRE_MINUTES,
+    Token
+)
+from app.core.config import settings
+from app.db.session import get_db
+from app.db.models import User, InvalidatedToken
+from app.schemas.auth import UserCreate, User as UserSchema
+from pydantic import BaseModel
+
+router = APIRouter()
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
+
+class PasswordChange(BaseModel):
+    old_password: str
+    new_password: str
+    verify_password: str
+
+@router.post("/register", response_model=UserSchema, status_code=status.HTTP_201_CREATED)
+async def register(
+    user_data: UserCreate,
+    db: Session = Depends(get_db)
+):
+    """Register a new user."""
+    # Check if passwords match
+    if user_data.password != user_data.verify_password:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Passwords do not match"
+        )
+
+    # Check if email already exists
+    if db.query(User).filter(User.email == user_data.email).first():
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Email already registered"
+        )
+
+    # Validate password strength
+    if len(user_data.password) < 8:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Password must be at least 8 characters long"
+        )
+
+    if not any(c.isdigit() for c in user_data.password):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Password must contain at least one number"
+        )
+
+    if not any(c in "!@#$%^&*(),.?\":{}|<>" for c in user_data.password):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Password must contain at least one special character"
+        )
+    
+    # Create new user
+    hashed_password = get_password_hash(user_data.password)
+    new_user = User(
+        email=user_data.email,
+        hashed_password=hashed_password,
+        created_at=datetime.utcnow()
+    )
+    db.add(new_user)
+    db.commit()
+    db.refresh(new_user)
+    
+    return UserSchema(
+        id=new_user.id,
+        email=new_user.email,
+        is_active=True
+    )
+@router.post("/login", response_model=Token)
+async def login(
+    form_data: OAuth2PasswordRequestForm = Depends(),
+    db: Session = Depends(get_db)
+):
+    """Authenticate user and return token."""
+    user = db.query(User).filter(User.email == form_data.username).first()
+    if not user or not verify_password(form_data.password, user.hashed_password):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Incorrect email or password",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+
+    # Update last login time
+    user.last_login = datetime.utcnow()
+    db.commit()
+
+    # Create access token
+    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token = create_access_token(
+        data={"sub": user.email}, expires_delta=access_token_expires
+    )
+    
+    return Token(access_token=access_token, token_type="bearer")
+@router.post("/change-password", status_code=status.HTTP_200_OK)
+async def change_password(
+    password_data: PasswordChange,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """Change user password"""
+    # Verify old password
+    if not verify_password(password_data.old_password, current_user.hashed_password):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Incorrect password"
+        )
+    
+    # Check if passwords match
+    if password_data.new_password != password_data.verify_password:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="New passwords do not match"
+        )
+    
+    # Validate new password
+    if len(password_data.new_password) < 8:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Password must be at least 8 characters long"
+        )
+
+    if not any(c.isdigit() for c in password_data.new_password):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Password must contain at least one number"
+        )
+
+    if not any(c in "!@#$%^&*(),.?\":{}|<>" for c in password_data.new_password):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Password must contain at least one special character"
+        )
+    
+    # Update password
+    current_user.hashed_password = get_password_hash(password_data.new_password)
+    db.commit()
+    
+    return {"message": "Password updated successfully"}
+
+async def register_user(user_data: Dict[str, str], db: Session):
+    """Internal function to handle user registration."""
+    # Log the registration request
+    print(f"Registration request received for user: {user_data['username']}")  # Debug log
+    # Debug database connection
+    try:
+        from app.core.config import get_settings
+        from sqlalchemy import text
+        print(f"Database URL: {get_settings().DATABASE_URL}")
+        result = db.execute(text("SELECT 1")).scalar()
+        print(f"Database connection test result: {result}")
+    except Exception as e:
+        import traceback
+        print(f"Database connection error: {str(e)}")
+        print(f"Full traceback: {traceback.format_exc()}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Database connection error"
+        )
+    try:
+        # Check if user already exists
+        existing_user = db.query(User).filter(User.email == user_data['username']).first()
+        if existing_user:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Email already registered"
+            )
+        
+        @router.post("/logout")
+async def logout(
+    current_token: str = Depends(oauth2_scheme),
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """Invalidate the current user's token."""
+    # Check if token is already invalidated
+    invalid_token = db.query(InvalidatedToken).filter(
+        InvalidatedToken.token == current_token
+    ).first()
+    
+    if invalid_token:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Token has been invalidated"
+        )
+    
+    # Parse token to get expiration
+    try:
+        payload = jwt.decode(current_token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
+        expire = datetime.fromtimestamp(payload.get("exp"))
+    except JWTError:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Could not validate token"
+        )
+    
+    # Invalidate the token
+    invalid_token = InvalidatedToken(
+        token=current_token,
+        user_id=current_user.id,
+        expires_at=expire
+    )
+    db.add(invalid_token)
+    db.commit()
+    
+    return {"detail": "Successfully logged out"}
+        
+    except HTTPException as he:
+        raise he
+from pydantic import BaseModel
+
+class PasswordChange(BaseModel):
+    old_password: str
+    new_password: str
+    verify_password: str
+
+@router.post("/change-password", status_code=status.HTTP_200_OK)
+async def change_password(
+    password_data: PasswordChange,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """Change user password"""
+    # Verify old password
+    if not verify_password(password_data.old_password, current_user.hashed_password):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Incorrect password"
+        )
+    
+    # Check if passwords match
+    if password_data.new_password != password_data.verify_password:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="New passwords do not match"
+        )
+    
+    # Validate new password
+    if len(password_data.new_password) < 8:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Password must be at least 8 characters long"
+        )
+
+    if not any(c.isdigit() for c in password_data.new_password):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Password must contain at least one number"
+        )
+
+    if not any(c in "!@#$%^&*(),.?\":{}|<>" for c in password_data.new_password):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Password must contain at least one special character"
+        )
+    
+    # Update password
+    current_user.hashed_password = get_password_hash(password_data.new_password)
+    db.commit()
+    
+    return {"message": "Password updated successfully"}
+
+@router.post("/login", response_model=Token)
+async def login(
+    form_data: OAuth2PasswordRequestForm = Depends(),
+    db: Session = Depends(get_db)
+):
+    """Authenticate user and return token."""
+    user = db.query(User).filter(User.email == form_data.username).first()
+    if not user or not verify_password(form_data.password, user.hashed_password):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Incorrect email or password",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+
+    # Create access token
+    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token = create_access_token(
+        data={"sub": user.email}, expires_delta=access_token_expires
+    )
+    
+    return {"access_token": access_token, "token_type": "bearer"}
+
+@router.post("/logout")
+async def logout(
+    current_token: str = Depends(oauth2_scheme),
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """Invalidate the current user's token."""
+    # Check if token is already invalidated
+    invalid_token = db.query(InvalidatedToken).filter(
+        InvalidatedToken.token == current_token
+    ).first()
+    
+    if invalid_token:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Token has been invalidated"
+        )
+    
+    # Parse token to get expiration
+    try:
+        payload = jwt.decode(current_token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
+        expire = datetime.fromtimestamp(payload.get("exp"))
+    except JWTError:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Could not validate token"
+        )
+    
+    # Invalidate the token
+    invalid_token = InvalidatedToken(
+        token=current_token,
+        user_id=current_user.id,
+        expires_at=expire
+    )
+    db.add(invalid_token)
+    db.commit()
+    
+    return {"detail": "Successfully logged out"}
+
+@router.post("/cleanup-tokens")
+async def cleanup_expired_tokens(db: Session = Depends(get_db)):
+    """Remove expired tokens from the invalidated tokens table."""
+    db.query(InvalidatedToken).filter(
+        InvalidatedToken.expires_at < datetime.utcnow()
+    ).delete()
+    db.commit()
+    return {"detail": "Expired tokens cleaned up"}
+
+async def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
+    """Get current user from token."""
+    credentials_exception = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Could not validate credentials",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
+    try:
+        from app.core.auth import verify_token
+        token_data = verify_token(token)
+        if token_data is None:
+            raise credentials_exception
+    except Exception:
+        raise credentials_exception
+    
+    # Find user by email
+    user = db.query(User).filter(User.email == token_data.email).first()
+    if user is None:
+        raise credentials_exception
+    return user
+
+@router.get("/me", response_model=Dict[str, Any])
+async def read_users_me(current_user: User = Depends(get_current_user)):
+    """Get current user information."""
+    return {
+        "id": current_user.id,
+        "email": current_user.email,
+        "created_at": current_user.created_at,
+        "status": current_user.status
+    }

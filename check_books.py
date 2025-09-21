@@ -1,0 +1,1 @@
+from app.db.session import get_db; from sqlalchemy import text; db = next(get_db()); result = db.execute(text("SELECT id, title FROM books")); print("Books in database:"); [print(f"ID: {row[0]}, Title: {row[1]}") for row in result]
