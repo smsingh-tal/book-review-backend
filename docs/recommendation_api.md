@@ -1,11 +1,16 @@
 # Recommendation Service API Documentation
 
 ## Overview
-The recommendation service provides personalized book recommendations based on user preferences, reading history, and favorite books. The service includes a fallback mechanism to provide popular book recommendations when personalized recommendations are not available.
+The recommendation service provides personalized book recommendations using multiple strategies:
+1. Top-rated books based on user preferences and rating patterns
+2. Similar books based on user's favorite genres and reading history
+3. AI-powered recommendations using OpenAI's GPT model
+
+The service includes intelligent fallback mechanisms and caching for optimal performance.
 
 ## Base URL
 ```
-/recommendations
+/v1/recommendations
 ```
 
 ## Authentication
@@ -17,9 +22,9 @@ Authorization: Bearer <your_jwt_token>
 ## Endpoints
 
 ### Get Recommendations
-Returns personalized book recommendations for the authenticated user.
+Returns personalized book recommendations for the authenticated user using the specified recommendation strategy.
 
-**Endpoint:** `POST /recommendations`
+**Endpoint:** `POST /v1/recommendations`
 
 **Request Headers:**
 ```
@@ -30,7 +35,9 @@ Authorization: Bearer <your_jwt_token>
 **Request Body:**
 ```typescript
 interface RecommendationRequest {
-  limit?: number;  // Optional. Number of recommendations to return. Default: 10
+  limit?: number;              // Optional. Number of recommendations (1-50). Default: 10
+  recommendation_type: string; // Required. One of: "top_rated", "similar", "ai"
+  genre?: string;             // Optional. Filter recommendations by specific genre
 }
 ```
 
@@ -42,20 +49,77 @@ interface BookRecommendation {
   author: string;
   genres: string[];
   average_rating: number;
+  rating_count: number;
+  publication_year?: number;
   relevance_score: number;
   recommendation_reason: string;
 }
 
 interface RecommendationResponse {
   recommendations: BookRecommendation[];
-  is_fallback: boolean;  // true if using fallback recommendations
+  is_fallback: boolean;           // true if using fallback recommendations
+  fallback_reason?: string;       // explanation if fallback was used
+  recommendation_type: string;    // the type of recommendations returned
 }
 ```
 
-**Example Request:**
+**Recommendation Types:**
+
+1. **top_rated** (Default)
+   - Returns highest-rated books matching user's rating patterns
+   - Considers user's average rating threshold
+   - Excludes books with too few ratings
+   - Filters out already read/reviewed books
+
+2. **similar**
+   - Returns books similar to user's favorites
+   - Uses genre matching and preference scoring
+   - Considers user's reading history
+   - Provides detailed matching explanations
+
+3. **ai**
+   - Uses OpenAI to generate personalized recommendations
+   - Considers user's reading history and preferences
+   - Falls back to "similar" if AI is unavailable
+   - Includes cache mechanism for performance
+
+**Example Requests:**
 ```javascript
-const response = await axios.post('/recommendations', 
-  { limit: 5 },
+// Get top-rated recommendations
+const topRatedResponse = await axios.post('/v1/recommendations', 
+  {
+    limit: 5,
+    recommendation_type: 'top_rated'
+  },
+  {
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    }
+  }
+);
+
+// Get genre-specific similar books
+const similarResponse = await axios.post('/v1/recommendations', 
+  {
+    limit: 10,
+    recommendation_type: 'similar',
+    genre: 'Mystery'
+  },
+  {
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    }
+  }
+);
+
+// Get AI-powered recommendations
+const aiResponse = await axios.post('/v1/recommendations', 
+  {
+    limit: 5,
+    recommendation_type: 'ai'
+  },
   {
     headers: {
       'Authorization': `Bearer ${token}`,
@@ -71,23 +135,47 @@ const response = await axios.post('/recommendations',
   "recommendations": [
     {
       "book_id": 123,
-      "title": "The Great Book",
+      "title": "The Great Mystery",
       "author": "Jane Author",
-      "genres": ["Fiction", "Adventure"],
+      "genres": ["Mystery", "Thriller"],
       "average_rating": 4.5,
+      "rating_count": 128,
+      "publication_year": 2024,
       "relevance_score": 0.85,
-      "recommendation_reason": "Matches your interest in Fiction"
-    },
-    // ... more recommendations
+      "recommendation_reason": "Highly rated mystery novel matching your reading preferences"
+    }
   ],
-  "is_fallback": false
+  "is_fallback": false,
+  "recommendation_type": "top_rated"
 }
 ```
 
 **Response Status Codes:**
 - `200 OK`: Successful request
+- `400 Bad Request`: Invalid parameters
 - `401 Unauthorized`: Missing or invalid JWT token
 - `500 Internal Server Error`: Server error
+
+**Error Responses:**
+```json
+{
+  "detail": "Error message describing what went wrong"
+}
+```
+
+## Performance Considerations
+- Response time: < 2 seconds for non-AI recommendations
+- Response time: < 5 seconds for AI recommendations
+- Cache duration: 24 hours for AI recommendations
+- Rate limits: 100 requests per minute per user
+- Minimum rating count: 5 reviews per book for top-rated recommendations
+
+## Notes
+- The service automatically excludes books that the user has already read or reviewed
+- The `relevance_score` ranges from 0 to 1, indicating how well the recommendation matches the user's preferences
+- When using genre filters, the service will still return cross-genre recommendations if they are highly relevant
+- The AI recommendation type requires OpenAI API configuration on the server
+- Fallback mechanisms ensure users always get recommendations, even if their preferred method fails
 
 ## Integration Example
 

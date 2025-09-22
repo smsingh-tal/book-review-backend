@@ -1,0 +1,263 @@
+"""Test recommendation service"""
+import json
+import pytest
+from datetime import datetime
+from unittest.mock import patch, MagicMock
+from sqlalchemy.orm import Session
+from app.db.models import User, Book, Review, UserFavorite
+from app.services.recommendation import RecommendationService
+from app.schemas.recommendation import RecommendationType
+
+@pytest.fixture
+def sample_data(db: Session):
+    # Create test user
+    user = User(name="Recommendation User", email="test@example.com", hashed_password="dummy_hash")
+    db.add(user)
+    db.commit()
+    
+    # Create test books with different genres and ratings
+    books = [
+        Book(
+            title=f"Book {i}",
+            author=f"Author {i}",
+            genres=["Fiction", "Mystery"] if i < 3 else ["Romance", "Drama"],
+            average_rating=4.0 + (i/10),
+            total_reviews=10 + i,
+            publication_date=datetime(2020 + i, 1, 1).date(),
+            isbn=f"123-456-{i:04d}"
+        )
+        for i in range(1, 8)  # More books for better testing
+    ]
+    db.add_all(books)
+    db.commit()
+    
+    # Add reviews with different ratings
+    reviews = [
+        Review(
+            user_id=user.id,
+            book_id=books[0].id,
+            text="Excellent mystery!",
+            rating=5
+        ),
+        Review(
+            user_id=user.id,
+            book_id=books[1].id,
+            text="Good book",
+            rating=4
+        )
+    ]
+    db.add_all(reviews)
+    
+    # Add a favorite
+    favorite = UserFavorite(user_id=user.id, book_id=books[0].id)
+    db.add(favorite)
+    db.commit()
+    
+    return {"user": user, "books": books, "reviews": reviews, "favorite": favorite}
+
+def test_get_user_preferences(db: Session, sample_data):
+    service = RecommendationService(db)
+    preferences = service._get_user_preferences(sample_data["user"].id)
+
+    assert preferences
+    assert isinstance(preferences, dict)
+    assert sum(preferences.values()) == pytest.approx(1.0)
+    assert all(isinstance(genre, str) for genre in preferences.keys())
+    assert all(0 <= weight <= 1.0 for weight in preferences.values())
+    # Fiction and Mystery should be higher weighted than Romance and Drama
+    fiction_weight = preferences.get("Fiction", 0)
+    mystery_weight = preferences.get("Mystery", 0)
+    romance_weight = preferences.get("Romance", 0)
+    drama_weight = preferences.get("Drama", 0)
+    assert fiction_weight + mystery_weight > romance_weight + drama_weight
+
+def test_calculate_book_score(db: Session, sample_data):
+    service = RecommendationService(db)
+    book = sample_data["books"][0]
+    preferences = {"Fiction": 0.6, "Mystery": 0.4}  # Strong preference for book's genres
+
+    score = service._calculate_book_score(book, preferences)
+    assert score > float(book.average_rating)  # Score should be boosted by matching genres
+
+def test_get_popular_books(db: Session, sample_data):
+    service = RecommendationService(db)
+    exclude_ids = {b.id for b in sample_data["books"][:2]}
+    popular_books = service._get_popular_books(limit=3, exclude_ids=exclude_ids)
+    
+    assert len(popular_books) == 3
+    assert all(b["book_id"] not in exclude_ids for b in popular_books)
+    assert all(b.get("relevance_score", 0) > 0 for b in popular_books)
+
+def test_get_recommendations_new_user(db: Session, sample_data):
+    # Create a new user with no history
+    new_user = User(
+        name="New User", 
+        email="new@example.com", 
+        hashed_password="dummy_hash"
+    )
+    db.add(new_user)
+    db.commit()
+
+    service = RecommendationService(db)
+    result = service.get_recommendations(new_user.id, limit=3)
+    
+    assert result["is_fallback"] is True  # Should fall back to popular books
+    assert len(result["recommendations"]) == 3
+    assert result["fallback_reason"] == "No user preferences found"
+
+def test_get_recommendations_with_history(db: Session, sample_data):
+    service = RecommendationService(db)
+    result = service.get_recommendations(sample_data["user"].id, limit=3)
+    
+    assert result["is_fallback"] is False
+    assert len(result["recommendations"]) == 3
+    # Recommendations should not include already reviewed books
+    reviewed_ids = {r.book_id for r in sample_data["reviews"]}
+    assert all(r["book_id"] not in reviewed_ids for r in result["recommendations"])
+
+def test_get_recommendations_limit_respected(db: Session, sample_data):
+    service = RecommendationService(db)
+    limit = 2
+    result = service.get_recommendations(sample_data["user"].id, limit=limit)
+    
+    assert len(result["recommendations"]) == limit
+
+def test_top_rated_recommendations(db: Session, sample_data):
+    service = RecommendationService(db)
+    result = service.get_recommendations(
+        user_id=sample_data["user"].id,
+        limit=3,
+        recommendation_type=RecommendationType.TOP_RATED
+    )
+
+    assert result["is_fallback"] is False
+    assert result["recommendation_type"] == RecommendationType.TOP_RATED
+    # Top rated recommendations should have high average ratings
+    assert all(r.get("average_rating", 0) >= 4.0 for r in result["recommendations"])
+
+def test_similar_books_recommendations(db: Session, sample_data):
+    service = RecommendationService(db)
+    result = service.get_recommendations(
+        user_id=sample_data["user"].id,
+        limit=3,
+        recommendation_type=RecommendationType.SIMILAR
+    )
+
+    assert result["is_fallback"] is False
+    assert result["recommendation_type"] == RecommendationType.SIMILAR
+    # Check if recommendations share genres with user preferences
+    preferences = service._get_user_preferences(sample_data["user"].id)
+    preferred_genres = set(preferences.keys())
+    
+    for rec in result["recommendations"]:
+        book_genres = set(rec["genres"])
+        assert bool(preferred_genres & book_genres)  # Should share at least one genre
+
+@pytest.mark.asyncio  # Add pytest.mark.asyncio decorator
+async def test_ai_recommendations_with_fallback(db: Session, sample_data):
+    service = RecommendationService(db)
+    # Don't set the API key to trigger fallback
+    service.openai_api_key = None
+    
+    result = service.get_recommendations(
+        user_id=sample_data["user"].id,
+        limit=3,
+        recommendation_type=RecommendationType.AI
+    )
+    
+    assert result["is_fallback"] is True
+    assert result["recommendation_type"] == RecommendationType.SIMILAR  # Falls back to similar books
+    assert "AI recommendations failed" in result["fallback_reason"]
+
+@patch('app.services.recommendation.RecommendationService._get_ai_recommendations')
+def test_ai_recommendations_success(mock_ai, db: Session, sample_data):
+    mock_ai.return_value = [
+        {
+            "book_id": 1,
+            "title": "AI Recommended Book",
+            "author": "AI Author",
+            "genres": ["Fiction"],
+            "average_rating": 4.5,
+            "rating_count": 100,
+            "publication_year": 2024,
+            "relevance_score": 0.95,
+            "recommendation_reason": "AI generated reason"
+        }
+    ]
+
+    service = RecommendationService(db)
+    service.openai_api_key = "dummy_key"  # Ensure API key is set
+    result = service.get_recommendations(
+        user_id=sample_data["user"].id,
+        limit=1,
+        recommendation_type=RecommendationType.AI
+    )
+
+    assert result["is_fallback"] is False
+    assert result["recommendation_type"] == RecommendationType.AI
+    assert len(result["recommendations"]) == 1
+    assert result["recommendations"][0]["recommendation_reason"] == "AI generated reason"
+
+def test_genre_filtered_recommendations(db: Session, sample_data):
+    service = RecommendationService(db)
+    # Use Fiction since we know our test data has Fiction books
+    result = service.get_recommendations(
+        user_id=sample_data["user"].id,
+        limit=3,
+        recommendation_type=RecommendationType.SIMILAR,
+        genre="Fiction"
+    )
+
+    assert result["is_fallback"] is False
+    assert len(result["recommendations"]) > 0
+    assert all("Fiction" in book["genres"] for book in result["recommendations"])
+
+def test_cache_hits_for_ai_recommendations(db: Session, sample_data):
+    service = RecommendationService(db)
+    service.openai_api_key = "dummy_key"  # Ensure API key is set
+
+    # Patch Redis functionality
+    with patch.object(service, 'cache') as mock_cache:
+        # First call - cache miss
+        mock_cache.get.return_value = None
+        result1 = service.get_recommendations(
+            user_id=sample_data["user"].id,
+            limit=3,
+            recommendation_type=RecommendationType.AI
+        )
+        
+        # Make sure get was called
+        assert mock_cache.get.called
+        assert mock_cache.get.call_count == 1
+
+        # Reset the mock for second call
+        mock_cache.reset_mock()
+
+            # Second call - cache hit with correct format
+            cached_response = {
+                "recommendations": [{
+                    "book_id": 1,
+                    "title": "Cached Book",
+                    "author": "Cached Author",
+                    "genres": ["Fiction"],
+                    "average_rating": 4.5,
+                    "relevance_score": 0.95
+                }],
+                "is_fallback": False,
+                "fallback_reason": None,
+                "recommendation_type": RecommendationType.AI
+            }
+            mock_cache.get.return_value = json.dumps(cached_response)
+            
+            result2 = service.get_recommendations(
+            user_id=sample_data["user"].id,
+            limit=3,
+            recommendation_type=RecommendationType.AI
+        )
+
+        # Verify cache was hit and no setex call was made
+        assert mock_cache.get.called
+        assert mock_cache.get.call_count == 1
+        assert not mock_cache.setex.called
+        assert not result2["is_fallback"]
+        assert result2["recommendations"][0]["title"] == "Cached Book"

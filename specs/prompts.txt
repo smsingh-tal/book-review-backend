@@ -174,6 +174,24 @@ PROMPT 19:
 Can you implement user session logout functionality? It should invalidate the user session. Write the testcases to validate the functionality.
 Also,update auth_api.md file for this and the progress.md too.
 
+PROMPT 20:
+Act as a senior technical lead and update 007_RECOMMEND_SERVICE task to cover for the following features
+o Top-rated books for the logged in user
+o Books similar to user's favourites or genres
+o Use LLM based service APIs like OpenAI to provide recommendations to the user
+Please update the task 007_RECOMMEND_SERVICE.md file, and do not implement for now.
 
+PROMPT 20.1:
+make the adjustment in the code
+
+PROMPT 20.2:
+Update the recomendation_api.md with the latest change.
+
+PROMPT
+http://localhost:8000/v1/reviews?book_id=32&page=1&sort_by=date&sort_order=desc is giving 404
+
+For a new book the Ratings could "Not rated yet".
+Once the ratings are added average rating and number of ratings should be displayed as it is now.
+The average rating and number of ratings for a book should be updated in book table when a new rating is given by the user for the book. This will help load the data faster, though update query will be little slower. Make sure both rating updates happen in a single transaction
 
 
