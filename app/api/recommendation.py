@@ -9,7 +9,7 @@ from app.services.recommendation import RecommendationService
 
 router = APIRouter()
 
-@router.post("/", response_model=RecommendationResponse)
+@router.post("", response_model=RecommendationResponse)
 async def get_recommendations(
     request: RecommendationRequest,
     current_user = Depends(get_current_user),

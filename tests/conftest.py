@@ -1,5 +1,7 @@
 """Test database utilities"""
+import warnings
 import pytest
+import asyncio
 from sqlalchemy import create_engine, event
 from sqlalchemy.orm import sessionmaker, Session
 from typing import Generator
@@ -7,6 +9,16 @@ from app.db.models import Base
 from app.db.session import get_db
 from app.main import app
 from fastapi.testclient import TestClient
+
+# Filter out passlib crypt deprecation warning
+warnings.filterwarnings("ignore", message="'crypt' is deprecated", module="passlib.utils")
+
+@pytest.fixture(scope="session")
+def event_loop():
+    """Create an instance of the default event loop for each test case."""
+    loop = asyncio.get_event_loop_policy().new_event_loop()
+    yield loop
+    loop.close()
 
 # Test database URL
 TEST_DATABASE_URL = "postgresql://postgres:postgres@localhost:5432/book_review_test"

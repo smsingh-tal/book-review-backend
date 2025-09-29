@@ -97,11 +97,11 @@ def test_me_endpoint_no_auth(client: TestClient):
     assert response.status_code == 401
     assert "Not authenticated" in response.json()["detail"]
 
-def test_logout(client: TestClient):
-    """Test logout endpoint."""
+def test_logout_unauthorized(client: TestClient):
+    """Test logout endpoint requires authentication."""
     response = client.post("/v1/auth/logout")
-    assert response.status_code == 200
-    assert response.json() == {"message": "Successfully logged out"}
+    assert response.status_code == 401
+    assert "Not authenticated" in response.json()["detail"]
 
 def test_successful_login(test_user, client: TestClient):
     """Test successful login with correct credentials"""

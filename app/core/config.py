@@ -21,7 +21,14 @@ class Settings(BaseSettings):
     secret_key: str = "your-secret-key"  # In production, use a strong secret key
     algorithm: str = "HS256"
     access_token_expire_minutes: int = 30
-    openai_api_key: str = "your-openai-api-key"  # Optional, only if using OpenAI features
+    
+    # OpenAI Configuration
+    OPENAI_API_KEY: str = "your-openai-api-key"  # Optional, only if using OpenAI features
+    
+    # Redis Configuration
+    REDIS_HOST: str = "localhost"
+    REDIS_PORT: int = 6379
+    REDIS_DB: int = 0
 
 @lru_cache()
 def get_settings() -> Settings:

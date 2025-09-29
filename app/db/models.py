@@ -36,6 +36,7 @@ class Book(Base):
     total_reviews = Column(Integer, default=0)
     created_at = Column(DateTime(timezone=True), nullable=False, default=utc_now)
     genres = Column(ARRAY(String(50)), nullable=True)
+    description = Column(Text, nullable=True)
 
     # Relationships
     reviews = relationship("Review", back_populates="book", cascade="all, delete-orphan")

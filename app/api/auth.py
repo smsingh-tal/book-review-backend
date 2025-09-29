@@ -81,17 +81,8 @@ async def register(
                 detail="Error creating user - database error"
             )
         
-        # Generate access token
-        access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-        access_token = create_access_token(
-            data={"sub": new_user.email}, 
-            expires_delta=access_token_expires
-        )
-        
         return {
-            "message": "User created successfully",
-            "access_token": access_token,
-            "token_type": "bearer"
+            "message": "User created successfully"
         }
     except HTTPException as e:
         raise e
@@ -263,26 +254,7 @@ async def logout(
     db.commit()
     return {"message": "Successfully logged out"}
 
-async def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
-    """Get current user from token."""
-    credentials_exception = HTTPException(
-        status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="Could not validate credentials",
-        headers={"WWW-Authenticate": "Bearer"},
-    )
-    try:
-        from app.core.auth import verify_token
-        token_data = verify_token(token)
-        if token_data is None:
-            raise credentials_exception
-    except Exception:
-        raise credentials_exception
-    
-    # Find user by email
-    user = db.query(User).filter(User.email == token_data.email).first()
-    if user is None:
-        raise credentials_exception
-    return user
+from app.core.auth import get_current_user  # Import from core
 
 @router.get("/me", response_model=Dict[str, Any])
 async def read_users_me(current_user: User = Depends(get_current_user)):
@@ -290,8 +262,8 @@ async def read_users_me(current_user: User = Depends(get_current_user)):
     return {
         "id": current_user.id,
         "email": current_user.email,
-        "created_at": current_user.created_at,
-        "status": current_user.status
+        "name": current_user.name,
+        "created_at": current_user.created_at
     }
 
 @router.post("/logout")

@@ -15,12 +15,14 @@ ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 # Password hashing configuration
-import bcrypt  # Import bcrypt directly to avoid using crypt module
+import bcrypt  # Import bcrypt directly
 
 pwd_context = CryptContext(
     schemes=["bcrypt"],
-    deprecated="auto",
-    bcrypt__default_rounds=10  # Balanced security and performance
+    deprecated=[],  # No deprecated schemes
+    bcrypt__rounds=12,  # Increased rounds for better security
+    bcrypt__ident="2b",  # Use the modern bcrypt variant
+    default="bcrypt"  # Only use bcrypt
 )
 
 class Token(BaseModel):
@@ -38,13 +40,20 @@ def get_password_hash(password: str) -> str:
     """Generate password hash."""
     return pwd_context.hash(password)
 
-def verify_token(token: str, db: Session = None) -> Optional[TokenData]:
+def verify_token(token: str, db: Session) -> Optional[TokenData]:
     """Verify token and return username if token is valid."""
     try:
         # First check JWT validity
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         email: str = payload.get("sub")
         if email is None:
+            return None
+        
+        # Check if token is invalidated
+        invalidated = db.query(InvalidatedToken).filter(
+            InvalidatedToken.token == token
+        ).first()
+        if invalidated:
             return None
                 
         return TokenData(email=email)
@@ -78,17 +87,19 @@ async def get_current_user(
     )
     
     try:
-        # Check if token is invalidated first
-        invalidated = db.query(InvalidatedToken).filter(
-            InvalidatedToken.token == token
-        ).first()
-        if invalidated:
-            raise credentials_exception
-            
-        # Then verify the token
+        # Verify the token (this also checks for invalidation)
         token_data = verify_token(token, db)
         if token_data is None:
             raise credentials_exception
+            
+        # Get the user
+        user = db.query(User).filter(User.email == token_data.email).first()
+        if user is None:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Token has been invalidated",
+                headers={"WWW-Authenticate": "Bearer"},
+            )
     except JWTError:
         raise credentials_exception
     
