@@ -397,57 +397,48 @@ class RecommendationService:
                 exclude_ids.add(favorite.book_id)
 
             # Query books excluding read ones and applying filters
-            query = self.db.query(Book).filter(
-                and_(
-                    Book.id.notin_(exclude_ids),
-                    Book.average_rating.isnot(None)
-                )
-            )
-            
+            query = self.db.query(Book).filter(Book.id.notin_(exclude_ids))
             if genre:
-                query = query.filter(
-                    Book.genres.isnot(None),
-                    func.array_to_string(Book.genres, ',', '').ilike(f'%{genre}%')
-                )
+                query = query.filter(Book.genres.isnot(None), func.array_to_string(Book.genres, ',', '').ilike(f'%{genre}%'))
             books = query.all()
-            
-            if not books:
-                # Fallback to popular books if no matches found
-                recommendations = self._get_popular_books(limit)
-                return {
-                    "recommendations": recommendations,
-                    "is_fallback": True,
-                    "fallback_reason": f"No {'genre-specific ' if genre else ''}books found",
-                    "recommendation_type": recommendation_type,
-                    "is_ai_powered": False
-                }
 
             # Get recommendations based on type
             if recommendation_type == RecommendationType.TOP_RATED:
-                scored_books = self._get_top_rated_recommendations(books, limit, genre)
+                # Always use all books, ignore user
+                all_books = self.db.query(Book).all()
+                scored_books = self._get_top_rated_recommendations(all_books, limit, genre)
                 is_ai_powered = False
-            else:  # SIMILAR
-                # Try AI recommendations first since they can capture more nuanced patterns
+            elif recommendation_type == RecommendationType.AI:
                 try:
                     logging.info("Attempting AI recommendations")
+                    # Use all books, but AI logic is based on user favorites
                     scored_books = await self._get_ai_recommendations(books, user_id, limit, genre)
                     logging.info("AI recommendations succeeded")
-                    is_ai_powered = True  # Only set to True if AI call succeeds
+                    is_ai_powered = True
                 except Exception as e:
                     logging.error(f"AI recommendations failed: {str(e)}")
                     scored_books = []
-                    is_ai_powered = False  # Set to False on AI failure
-                    logging.info("Falling back to genre-based recommendations")
+                    is_ai_powered = False
+                # No fallback for AI
+            elif recommendation_type == RecommendationType.SIMILAR:
+                user_preferences = self._get_user_genre_preferences(user_id)
+                is_fallback = False
+                if user_preferences:
+                    scored_books = self._get_similar_recommendations(books, user_preferences, limit)
+                else:
+                    scored_books = []
+                is_ai_powered = False
+            else:
+                # Default fallback to top rated
+                all_books = self.db.query(Book).all()
+                scored_books = self._get_top_rated_recommendations(all_books, limit, genre)
+                is_ai_powered = False
 
-                if not scored_books:
-                    # Fall back to genre-based
-                    user_preferences = self._get_user_genre_preferences(user_id)
-                    if user_preferences:
-                        scored_books = self._get_similar_recommendations(books, user_preferences, limit)
-                    else:
-                        scored_books = self._get_top_rated_recommendations(books, limit, genre)
-                    if not scored_books:
-                        scored_books = self._get_top_rated_recommendations(books, limit, genre)
+            # Ensure scored_books and is_ai_powered are always defined
+            if 'scored_books' not in locals():
+                scored_books = []
+            if 'is_ai_powered' not in locals():
+                is_ai_powered = False
 
             # Create recommendation objects
             recommendations = [
@@ -455,12 +446,16 @@ class RecommendationService:
                 for book, score, reason in scored_books
             ]
 
-            return {
+            # Set fallback flag for similar recommendations
+            result = {
                 "recommendations": recommendations,
                 "is_fallback": False,
                 "recommendation_type": recommendation_type,
                 "is_ai_powered": is_ai_powered
             }
+            if recommendation_type == RecommendationType.SIMILAR:
+                result["is_fallback"] = locals().get("is_fallback", False)
+            return result
             
         except Exception as e:
             logging.error(f"Error in get_recommendations: {str(e)}")
