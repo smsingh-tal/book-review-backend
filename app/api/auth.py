@@ -3,7 +3,7 @@ from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 from datetime import timedelta, datetime
 from datetime import timezone
-from typing import Dict, Any
+from typing import Dict, Any, Union, Optional
 import json
 
 from app.core.auth import (
@@ -31,10 +31,10 @@ from fastapi import Body
 
 @router.post("/register")
 async def register(
-    user: UserRegister | None = None,
-    name: str | None = Form(None),
-    username: str | None = Form(None),
-    password: str | None = Form(None),
+    user: Optional[UserRegister] = None,
+    name: Optional[str] = Form(None),
+    username: Optional[str] = Form(None),
+    password: Optional[str] = Form(None),
     db: Session = Depends(get_db)
 ):
     """Register a new user using either JSON or form data."""
