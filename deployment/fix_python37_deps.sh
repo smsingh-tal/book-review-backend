@@ -38,6 +38,7 @@ aiohttp = ">=3.7.0,<4.0.0"
 numpy = ">=1.19.0,<1.22.0"
 python-dotenv = ">=0.19.0,<2.0.0"
 typing-extensions = ">=4.0.0,<5.0.0"
+urllib3 = ">=1.26.0,<2.0.0"
 
 [tool.poetry.group.dev.dependencies]
 pytest = ">=6.0.0,<8.0.0"
