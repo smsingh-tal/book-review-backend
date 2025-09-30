@@ -32,9 +32,6 @@ def get_engine():
             conn.execute(text('SET search_path TO public'))
             result = conn.execute(text('SHOW search_path'))
             logger.info(f"Search path set to: {result.scalar()}")
-            
-            
-            conn.commit()
         logger.info("Database connection established successfully")
         return engine
     except Exception as e:
