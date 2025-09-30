@@ -19,38 +19,15 @@ import os
 
 app = FastAPI(title="Book Review Platform")
 
-@app.on_event("startup")
-async def startup_event():
-    from app.core.config import get_settings
-    settings = get_settings()
-    # Log database configuration
-    logger.info("Database Configuration:")
-    logger.info(f"  Host: {settings.DB_HOST}")
-    logger.info(f"  Port: {settings.DB_PORT}")
-    logger.info(f"  Database: {settings.DB_NAME}")
-    logger.info(f"  User: {settings.DB_USER}")
-    logger.info(f"  URL: {settings.DATABASE_URL}")
-    # Test database connection
-    db = next(get_db())
-    try:
-        # Verify connection details
-        result = db.execute(text("SELECT current_database(), current_user, current_schema()"))
-        db_name, user, schema = result.fetchone()
-        logger.info(f"Successfully connected to database:")
-        logger.info(f"  Database: {db_name}")
-        logger.info(f"  User: {user}")
-        logger.info(f"  Schema: {schema}")
-        # Check if we can access the books table
-        result = db.execute(text("SELECT COUNT(*) FROM books"))
-        count = result.scalar()
-        logger.info(f"Found {count} books in database")
-        if count == 0:
-            logger.warning("No books found in database - this might indicate a connection to the wrong database")
-    except Exception as e:
-        logger.error(f"Database connection error: {str(e)}")
-        raise
-    finally:
-        db.close()
+# Log database configuration on startup
+from app.core.config import get_settings
+settings = get_settings()
+logger.info("Database Configuration:")
+logger.info(f"  Host: {settings.DB_HOST}")
+logger.info(f"  Port: {settings.DB_PORT}")
+logger.info(f"  Database: {settings.DB_NAME}")
+logger.info(f"  User: {settings.DB_USER}")
+logger.info(f"  URL: {settings.DATABASE_URL}")
 
 app.add_middleware(
     CORSMiddleware,
@@ -62,20 +39,39 @@ app.add_middleware(
 
 @app.get("/")
 async def root():
-    # Test database connection
+    # Test database connection and log details
     db = next(get_db())
     try:
+        # Verify connection details
+        result = db.execute(text("SELECT current_database(), current_user, current_schema()"))
+        db_name, user, schema = result.fetchone()
+        logger.info(f"Successfully connected to database:")
+        logger.info(f"  Database: {db_name}")
+        logger.info(f"  User: {user}")
+        logger.info(f"  Schema: {schema}")
+        
+        # Check if we can access the books table
         result = db.execute(text("SELECT COUNT(*) FROM books"))
         count = result.scalar()
+        logger.info(f"Found {count} books in database")
+        if count == 0:
+            logger.warning("No books found in database - this might indicate a connection to the wrong database")
+            
         return {
             "message": "Welcome to Book Review Platform API",
+            "database": db_name,
+            "user": user,
+            "schema": schema,
             "book_count": count
         }
     except Exception as e:
+        logger.error(f"Database connection error: {str(e)}")
         return {
             "message": "Welcome to Book Review Platform API",
             "error": str(e)
         }
+    finally:
+        db.close()
 
 # Add a way to override get_db dependency
 test_session = None
