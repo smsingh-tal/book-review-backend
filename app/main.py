@@ -17,10 +17,10 @@ from fastapi.staticfiles import StaticFiles
 import os
 
 
-from contextlib import asynccontextmanager
+app = FastAPI(title="Book Review Platform")
 
-@asynccontextmanager
-async def lifespan(app):
+@app.on_event("startup")
+async def startup_event():
     from app.core.config import get_settings
     settings = get_settings()
     # Log database configuration
@@ -51,9 +51,6 @@ async def lifespan(app):
         raise
     finally:
         db.close()
-    yield
-
-app = FastAPI(title="Book Review Platform", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
