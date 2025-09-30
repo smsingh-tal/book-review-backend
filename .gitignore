@@ -52,4 +52,17 @@ ENV/
 
 # macOS
 .DS_Store
-.env
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+.terraform.lock.hcl
+
+# Large files
+*.tar.gz
+*.zip
+*.dmg
+
+# Uploads
+uploads/
