@@ -23,11 +23,11 @@ app = FastAPI(title="Book Review Platform")
 from app.core.config import get_settings
 settings = get_settings()
 logger.info("Database Configuration:")
-logger.info(f"  Host: {settings.DB_HOST}")
-logger.info(f"  Port: {settings.DB_PORT}")
-logger.info(f"  Database: {settings.DB_NAME}")
-logger.info(f"  User: {settings.DB_USER}")
-logger.info(f"  URL: {settings.DATABASE_URL}")
+logger.info("  Host: {}".format(settings.DB_HOST))
+logger.info("  Port: {}".format(settings.DB_PORT))
+logger.info("  Database: {}".format(settings.DB_NAME))
+logger.info("  User: {}".format(settings.DB_USER))
+logger.info("  URL: {}".format(settings.DATABASE_URL))
 
 app.add_middleware(
     CORSMiddleware,
@@ -45,15 +45,15 @@ async def root():
         # Verify connection details
         result = db.execute(text("SELECT current_database(), current_user, current_schema()"))
         db_name, user, schema = result.fetchone()
-        logger.info(f"Successfully connected to database:")
-        logger.info(f"  Database: {db_name}")
-        logger.info(f"  User: {user}")
-        logger.info(f"  Schema: {schema}")
+        logger.info("Successfully connected to database:")
+        logger.info("  Database: {}".format(db_name))
+        logger.info("  User: {}".format(user))
+        logger.info("  Schema: {}".format(schema))
         
         # Check if we can access the books table
         result = db.execute(text("SELECT COUNT(*) FROM books"))
         count = result.scalar()
-        logger.info(f"Found {count} books in database")
+        logger.info("Found {} books in database".format(count))
         if count == 0:
             logger.warning("No books found in database - this might indicate a connection to the wrong database")
             
@@ -65,7 +65,7 @@ async def root():
             "book_count": count
         }
     except Exception as e:
-        logger.error(f"Database connection error: {str(e)}")
+        logger.error("Database connection error: {}".format(str(e)))
         return {
             "message": "Welcome to Book Review Platform API",
             "error": str(e)
