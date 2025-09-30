@@ -18,7 +18,11 @@ class Settings(BaseModel):
     @property
     def DATABASE_URL(self) -> str:
         """Constructs database URL from individual components"""
-        return f"postgresql://{self.DB_USER}:{self.DB_PASSWORD}@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}"
+        # Use DATABASE_URL environment variable if set, otherwise construct PostgreSQL URL
+        if os.getenv("DATABASE_URL"):
+            return os.getenv("DATABASE_URL")
+        else:
+            return f"postgresql://{self.DB_USER}:{self.DB_PASSWORD}@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}"
     
     # Other Settings
     secret_key: str = os.getenv("SECRET_KEY", "your-secret-key")  # In production, use a strong secret key
