@@ -16,7 +16,7 @@ authors = ["Shiv S <shiv.singh@talentica.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = ">=3.7,<4.0"
+python = ">=3.7.1,<4.0"
 fastapi = ">=0.70.0,<0.85.0"
 uvicorn = {extras = ["standard"], version = ">=0.15.0,<0.20.0"}
 sqlalchemy = ">=1.4.0,<1.5.0"
@@ -36,10 +36,8 @@ email-validator = ">=1.1.0,<2.0.0"
 requests = ">=2.25.0,<3.0.0"
 redis = ">=3.5.0,<5.0.0"
 aiohttp = ">=3.7.0,<4.0.0"
-openai = ">=0.27.0,<1.0.0"
 numpy = ">=1.19.0,<1.22.0"
 python-dotenv = ">=0.19.0,<2.0.0"
-scikit-learn = ">=0.24.0,<1.0.0"
 
 [tool.poetry.group.dev.dependencies]
 pytest = ">=6.0.0,<8.0.0"
