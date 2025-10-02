@@ -123,7 +123,9 @@ After successful deployment, Terraform will output the public IP address of your
 ## Part 3: Accessing Your Application
 
 
-## Part 4: Setting Up Your EC2 Environment (Linux)
+## Part 4: Setting Up Your EC2 Environment (Amazon Linux 2023)
+
+The deployment uses Amazon Linux 2023, the latest AWS-native Linux distribution that is free tier eligible. Our setup includes PostgreSQL 14 and Python 3.11+ which is required for this application.
 
 After your EC2 instance is running, connect to it:
 ```bash
@@ -137,41 +139,47 @@ sudo yum update -y
 sudo yum install -y git gcc openssl-devel bzip2-devel libffi-devel zlib-devel wget make postgresql postgresql-server postgresql-devel postgresql-contrib
 ```
 
-### 2. Install Python 3.11 from Source
+### 2. Verify Python and PostgreSQL Installation
 ```bash
-cd /usr/src
-sudo wget https://www.python.org/ftp/python/3.11.7/Python-3.11.7.tgz
-sudo tar xzf Python-3.11.7.tgz
-cd Python-3.11.7
-sudo ./configure --enable-optimizations
-sudo make altinstall
+# Verify Python version
+python3 --version  # Should show Python 3.11.x
+
+# Verify Python pip version
+pip3 --version     # Should show pip for Python 3.11.x
+
+# Verify PostgreSQL installation
+psql --version     # Should show PostgreSQL 14.x
 ```
 
 ### 3. Set Up PostgreSQL (local database)
 ```bash
-sudo postgresql-setup initdb
-sudo systemctl enable postgresql
-sudo systemctl start postgresql
+# PostgreSQL 14 is already installed by our setup script
+sudo systemctl status postgresql14  # Verify that PostgreSQL is running
 
-# Allow password authentication and remote/local connections
-sudo sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/'" /var/lib/pgsql/data/postgresql.conf
-echo "host    all             all             0.0.0.0/0               md5" | sudo tee -a /var/lib/pgsql/data/pg_hba.conf
-sudo systemctl restart postgresql
+# Allow password authentication and remote/local connections (if not already done by setup script)
+sudo sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/'" /var/lib/pgsql/14/data/postgresql.conf
+echo "host    all             all             0.0.0.0/0               md5" | sudo tee -a /var/lib/pgsql/14/data/pg_hba.conf
+sudo systemctl restart postgresql14
 ```
 
-### 4. Create and Activate Python 3.11 Virtual Environment
+### 4. Create and Activate Python Virtual Environment
 ```bash
-python3.11 -m venv ~/app_venv
+# The installation script already installed Python 3.11
+# Just create the virtual environment and activate it
+python3 -m venv ~/app_venv
 source ~/app_venv/bin/activate
+
+# Verify Python version in the virtual environment
+python --version  # Should show Python 3.11.x
 ```
 
-### 5. Install Poetry
+### 6. Install Poetry
 ```bash
 pip install --upgrade pip
 pip install poetry
 ```
 
-### 6. Clone Your Application Repository
+### 7. Clone Your Application Repository
 ```bash
 cd ~
 git clone https://github.com/smsingh-tal/book-review-backend.git
@@ -293,7 +301,7 @@ fi
 poetry run python app/main.py
 ```
 
-Your application will now run with Python 3.11 and dependencies matching your local machine. PostgreSQL will be available on the same EC2 instance.
+Your application will now run with Python 3.11 and dependencies matching your local machine. PostgreSQL 14 will be available on the same EC2 instance.
 
 ### 11. Run Tests (Optional)
 ```bash

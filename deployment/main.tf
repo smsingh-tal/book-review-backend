@@ -12,14 +12,29 @@ provider "aws" {
   region = var.aws_region
 }
 
-# Get the latest Amazon Linux 2 AMI
-data "aws_ami" "amazon_linux_2" {
+# Get the latest Amazon Linux 2023 AMI
+data "aws_ami" "amazon_linux_2023" {
   most_recent = true
   owners      = ["amazon"]
 
   filter {
     name   = "name"
-    values = ["amzn2-ami-hvm-*-x86_64-gp2"]
+    values = ["al2023-ami-*-x86_64"]
+  }
+
+  filter {
+    name   = "architecture"
+    values = ["x86_64"]
+  }
+
+  filter {
+    name   = "root-device-type"
+    values = ["ebs"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
   }
 }
 
@@ -112,8 +127,8 @@ resource "aws_security_group" "app_sg" {
 
 # Create an EC2 instance
 resource "aws_instance" "app_server" {
-  ami           = data.aws_ami.amazon_linux_2.id
-  instance_type = "t3.micro"
+  ami           = data.aws_ami.amazon_linux_2023.id
+  instance_type = "t3.micro"  # Free tier eligible instance type
   subnet_id     = aws_subnet.public.id
 
   vpc_security_group_ids = [aws_security_group.app_sg.id]

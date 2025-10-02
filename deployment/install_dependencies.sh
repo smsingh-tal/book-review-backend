@@ -1,29 +1,39 @@
 #!/bin/bash
 
 # Update system packages
-sudo yum update -y
+sudo dnf update -y
 
-# Install PostgreSQL
-sudo yum install -y postgresql postgresql-server postgresql-devel postgresql-contrib
-sudo postgresql-setup initdb
-sudo systemctl start postgresql
-sudo systemctl enable postgresql
+# Install PostgreSQL 14 (latest version available in Amazon Linux 2023 repositories)
+sudo dnf install -y postgresql14 postgresql14-server postgresql14-devel postgresql14-contrib
+sudo postgresql-setup --initdb --unit postgresql14
+sudo systemctl start postgresql14
+sudo systemctl enable postgresql14
 
 # Update PostgreSQL configuration to allow remote connections
-sudo sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/" /var/lib/pgsql/data/postgresql.conf
-echo "host    all             all             0.0.0.0/0               md5" | sudo tee -a /var/lib/pgsql/data/pg_hba.conf
+sudo sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/" /var/lib/pgsql/14/data/postgresql.conf
+echo "host    all             all             0.0.0.0/0               md5" | sudo tee -a /var/lib/pgsql/14/data/pg_hba.conf
 
 # Restart PostgreSQL to apply changes
-sudo systemctl restart postgresql
+sudo systemctl restart postgresql14
 
-# Install Python 3 and pip (system python3 has SSL support)
-sudo yum install -y python3 python3-pip
+# Install development tools and libraries required for Python compilation
+sudo dnf install -y gcc openssl-devel bzip2-devel libffi-devel zlib-devel wget make
+
+# Install Python 3.11+ as the primary Python version
+cd /usr/src
+sudo wget https://www.python.org/ftp/python/3.11.8/Python-3.11.8.tgz
+sudo tar xzf Python-3.11.8.tgz
+cd Python-3.11.8
+sudo ./configure --enable-optimizations
+sudo make altinstall
+sudo ln -sf /usr/local/bin/python3.11 /usr/bin/python3
+sudo ln -sf /usr/local/bin/pip3.11 /usr/bin/pip3
 
 # Install git and other required packages
-sudo yum install -y git gcc python3-devel postgresql-devel
+sudo dnf install -y git gcc postgresql14-devel
 
-# Create virtual environment with system Python3
-python3 -m venv /home/ec2-user/venv
+# Create virtual environment with Python 3.11
+python3.11 -m venv /home/ec2-user/venv
 
 # Activate virtual environment and install poetry
 source /home/ec2-user/venv/bin/activate

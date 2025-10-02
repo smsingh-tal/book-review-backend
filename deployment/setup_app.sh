@@ -63,6 +63,18 @@ setup_database() {
     if [ -f "init_books.sql" ]; then
         log "Running init_books.sql..."
         sudo -u postgres psql -d book_review -f init_books.sql || { error_log "Failed to run init_books.sql"; exit 1; }
+        
+        # Verify data was loaded correctly
+        log "Verifying book data was loaded correctly..."
+        BOOK_COUNT=$(sudo -u postgres psql -d book_review -t -c "SELECT COUNT(*) FROM books;")
+        BOOK_COUNT=$(echo "$BOOK_COUNT" | tr -d '[:space:]')
+        
+        if [ "$BOOK_COUNT" -lt 1 ]; then
+            error_log "Book data verification failed. No books found in the database."
+            exit 1
+        else
+            log "Book data verification successful. Found $BOOK_COUNT books in the database."
+        fi
     fi
     
     log "Database setup completed successfully"
@@ -117,9 +129,9 @@ setup_application() {
     log "Creating upload directory..."
     mkdir -p uploads || { error_log "Failed to create uploads directory"; exit 1; }
     
-    # Verify the installation
-    if ! poetry run python -c "import fastapi" 2>/dev/null; then
-        error_log "FastAPI installation verification failed"
+    # Verify the installation and Python version
+    if ! poetry run python -c "import sys, fastapi; assert sys.version_info >= (3, 11), 'Python 3.11+ required'; print(f'Using Python {sys.version}')" 2>/dev/null; then
+        error_log "FastAPI installation verification failed or Python version is less than 3.11"
         exit 1
     fi
     
@@ -149,6 +161,7 @@ User=ec2-user
 WorkingDirectory=/home/ec2-user/app
 Environment="PATH=/home/ec2-user/.local/bin:/usr/local/bin:/usr/bin:/bin"
 Environment="PYTHONPATH=/home/ec2-user/app"
+Environment="PYTHONHOME=/usr/local/bin/python3.11"
 ExecStart=/home/ec2-user/.local/bin/poetry run uvicorn app.main:app --host 0.0.0.0 --port 8000
 Restart=always
 RestartSec=3
