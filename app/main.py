@@ -4,6 +4,7 @@ from app.api import auth, storage, profile, recommendation, book, review
 from app.db.session import get_db
 from sqlalchemy import text
 from sqlalchemy.orm import Session
+from datetime import datetime
 import logging
 
 logger = logging.getLogger(__name__)
@@ -39,6 +40,7 @@ app.add_middleware(
 
 @app.get("/")
 async def root():
+    """Root endpoint with database connection check"""
     # Test database connection and log details
     db = next(get_db())
     try:
@@ -73,7 +75,10 @@ async def root():
     finally:
         db.close()
 
-# Add a way to override get_db dependency
+@app.get("/health")
+async def health_check():
+    """Health check endpoint for the API"""
+    return {"status": "healthy", "timestamp": str(datetime.now())}# Add a way to override get_db dependency
 test_session = None
 
 def override_get_db():
@@ -86,11 +91,11 @@ def override_get_db():
 app.dependency_overrides[get_db] = override_get_db
 
 app.include_router(auth.router, prefix="/v1/auth", tags=["auth"])
-app.include_router(storage.router)
+app.include_router(storage.router, prefix="/v1/storage", tags=["storage"])
 app.include_router(profile.router, prefix="/v1/profile", tags=["profile"])
 app.include_router(recommendation.router, prefix="/v1/recommendations", tags=["recommendations"])
-app.include_router(book.router)
-app.include_router(review.router)
+app.include_router(book.router, prefix="/v1/books", tags=["books"])
+app.include_router(review.router, prefix="/v1/reviews", tags=["reviews"])
 
 # Create uploads directory if it doesn't exist
 os.makedirs("uploads", exist_ok=True)

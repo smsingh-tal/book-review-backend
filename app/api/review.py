@@ -13,7 +13,7 @@ from app.schemas.review import (
 )
 from app.services.review import ReviewService
 
-router = APIRouter(prefix="/v1/reviews", tags=["reviews"])
+router = APIRouter(tags=["reviews"])
 
 @router.post("", response_model=ReviewResponse)
 def create_review(

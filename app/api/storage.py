@@ -7,7 +7,7 @@ from pathlib import Path
 from app.core.storage import StorageService
 from app.core.auth import get_current_user
 
-router = APIRouter(prefix="/storage", tags=["storage"])
+router = APIRouter(tags=["storage"])
 storage_service = StorageService()
 
 @router.post("/upload")

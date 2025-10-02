@@ -7,7 +7,7 @@ from app.db.session import get_db
 from app.schemas.book import Book, BookCreate, BookUpdate, BookSearchParams, BookListResponse
 from app.services.book import BookService
 
-router = APIRouter(prefix="/v1/books", tags=["books"])
+router = APIRouter(tags=["books"])
 
 @router.get("/", response_model=BookListResponse)
 def list_books(
