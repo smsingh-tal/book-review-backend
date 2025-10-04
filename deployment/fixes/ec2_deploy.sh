@@ -78,7 +78,32 @@ print_step "SETTING UP APPLICATION"
 if ! command -v poetry &>/dev/null; then
     echo "Installing Poetry..."
     curl -sSL https://install.python-poetry.org | python3 -
-    source $HOME/.poetry/env
+    
+    # Add Poetry to PATH based on installation location
+    if [ -d "$HOME/.local/bin" ]; then
+        export PATH="$HOME/.local/bin:$PATH"
+        echo "Added ~/.local/bin to PATH"
+    elif [ -d "/root/.local/bin" ]; then
+        export PATH="/root/.local/bin:$PATH"
+        echo "Added /root/.local/bin to PATH"
+    fi
+    
+    # Check if Poetry is now available
+    if command -v poetry &>/dev/null; then
+        echo "Poetry installed successfully and in PATH"
+    else
+        echo "Poetry installed but not in PATH. Looking for Poetry..."
+        POETRY_PATH=$(find /root/.local/bin /home -name poetry -type f 2>/dev/null | head -n 1)
+        if [ -n "$POETRY_PATH" ]; then
+            echo "Found Poetry at: $POETRY_PATH"
+            export PATH="$(dirname $POETRY_PATH):$PATH"
+            echo "Added $(dirname $POETRY_PATH) to PATH"
+        else
+            echo "⚠️ Poetry installed but couldn't be found. Using full path for commands."
+            # Use specific paths for Poetry
+            alias poetry="/root/.local/bin/poetry"
+        fi
+    fi
 fi
 
 # Install dependencies

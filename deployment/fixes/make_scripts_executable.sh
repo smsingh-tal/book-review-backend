@@ -9,5 +9,7 @@ chmod +x deployment/fixes/complete_setup.sh
 chmod +x deployment/fixes/fix_postgres_socket.sh
 chmod +x deployment/fixes/diagnose_postgres_connection.sh
 chmod +x deployment/fixes/ec2_deploy.sh
+chmod +x deployment/fixes/ec2_deploy_fixed.sh
+chmod +x deployment/fixes/install_poetry.sh
 
 echo "All scripts are now executable!"
