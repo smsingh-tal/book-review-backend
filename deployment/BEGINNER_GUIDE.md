@@ -145,14 +145,29 @@ sudo dnf install -y git gcc openssl-devel bzip2-devel libffi-devel zlib-devel wg
 
 ### 2. Install PostgreSQL 14
 ```bash
-# Install PostgreSQL repository
-sudo dnf install -y https://download.postgresql.org/pub/repos/yum/reporpms/EL-9-x86_64/pgdg-redhat-repo-latest.noarch.rpm
+# Install PostgreSQL repository (Amazon Linux 2023 specific)
+sudo dnf install -y https://download.postgresql.org/pub/repos/yum/reporpms/EL-2023-x86_64/pgdg-redhat-repo-latest.noarch.rpm
+
+# For Amazon Linux 2:
+
+# Disable the default PostgreSQL module
+sudo dnf -qy module disable postgresql
 
 # Install PostgreSQL 14
 sudo dnf install -y postgresql14-server postgresql14 postgresql14-devel
+# For PostgreSQL 14:
 sudo /usr/pgsql-14/bin/postgresql-14-setup initdb
+# For PostgreSQL 15 (Amazon Linux 2023), the init happens during installation
+# For PostgreSQL 14:
 sudo systemctl enable postgresql-14
 sudo systemctl start postgresql-14
+# For PostgreSQL 15:
+sudo systemctl enable postgresql-15
+sudo systemctl start postgresql-15
+
+# For Amazon Linux 2023:
+# PostgreSQL 15 installation is handled by our install_dependencies.sh script
+# For manual installation, see the script for detailed steps
 ```
 
 ### 3. Verify Python and PostgreSQL Installation
@@ -164,18 +179,34 @@ python3 --version  # Should show Python 3.11.x
 pip3 --version     # Should show pip for Python 3.11.x
 
 # Verify PostgreSQL installation
+# Verify PostgreSQL is installed and running
+# For PostgreSQL 14:
 /usr/pgsql-14/bin/psql --version  # Should show PostgreSQL 14.x
+# For PostgreSQL 15 (Amazon Linux 2023):
+/usr/pgsql-15/bin/psql --version  # Should show PostgreSQL 15.x
 ```
 
 ### 4. Set Up PostgreSQL (local database)
 ```bash
-# PostgreSQL 14 is now installed and running
-sudo systemctl status postgresql-14  # Verify that PostgreSQL is running
+# Verify PostgreSQL is installed and running
+# For PostgreSQL 14 (Amazon Linux 2):
+sudo systemctl status postgresql-14
+# For PostgreSQL 15 (Amazon Linux 2023):
+sudo systemctl status postgresql-15
 
 # Allow password authentication and remote/local connections (if not already done by setup script)
+# For PostgreSQL 14:
 sudo sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/'" /var/lib/pgsql/14/data/postgresql.conf
 echo "host    all             all             0.0.0.0/0               md5" | sudo tee -a /var/lib/pgsql/14/data/pg_hba.conf
+
+# For PostgreSQL 15 (Amazon Linux 2023):
+sudo sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/'" /var/lib/pgsql/15/data/postgresql.conf
+echo "host    all             all             0.0.0.0/0               md5" | sudo tee -a /var/lib/pgsql/15/data/pg_hba.conf
+# Restart PostgreSQL to apply the changes
+# For PostgreSQL 14:
 sudo systemctl restart postgresql-14
+# For PostgreSQL 15:
+sudo systemctl restart postgresql-15
 ```
 
 ### 4. Create and Activate Python Virtual Environment
@@ -220,15 +251,26 @@ fi
 
 ```bash
 # Set postgres user password
+# For PostgreSQL 14:
 sudo -u postgres /usr/pgsql-14/bin/psql -c "ALTER USER postgres WITH PASSWORD 'postgres';"
+# For PostgreSQL 15:
+sudo -u postgres /usr/pgsql-15/bin/psql -c "ALTER USER postgres WITH PASSWORD 'postgres';"
 
-# Create main application database
+# Create database
+# For PostgreSQL 14:
 sudo -u postgres /usr/pgsql-14/bin/psql -c "CREATE DATABASE book_review;"
 sudo -u postgres /usr/pgsql-14/bin/psql -c "GRANT ALL PRIVILEGES ON DATABASE book_review TO postgres;"
+# For PostgreSQL 15:
+sudo -u postgres /usr/pgsql-15/bin/psql -c "CREATE DATABASE book_review;"
+sudo -u postgres /usr/pgsql-15/bin/psql -c "GRANT ALL PRIVILEGES ON DATABASE book_review TO postgres;"
 
 # Create test database
+# For PostgreSQL 14:
 sudo -u postgres /usr/pgsql-14/bin/psql -c "CREATE DATABASE book_review_test;"
 sudo -u postgres /usr/pgsql-14/bin/psql -c "GRANT ALL PRIVILEGES ON DATABASE book_review_test TO postgres;"
+# For PostgreSQL 15:
+sudo -u postgres /usr/pgsql-15/bin/psql -c "CREATE DATABASE book_review_test;"
+sudo -u postgres /usr/pgsql-15/bin/psql -c "GRANT ALL PRIVILEGES ON DATABASE book_review_test TO postgres;"
 
 # Apply migrations safely with a modified approach for the second migration
 # Create a backup of the original migration script
@@ -434,10 +476,16 @@ sudo systemctl restart bookreview
 ### 3. Database Issues
 ```bash
 # Check PostgreSQL status
+# For Amazon Linux 2:
 sudo systemctl status postgresql-14
+# For Amazon Linux 2023:
+sudo systemctl status postgresql-15
 
 # Check PostgreSQL logs
+# For Amazon Linux 2:
 sudo tail -f /var/lib/pgsql/14/data/log/*.log
+# For Amazon Linux 2023:
+sudo tail -f /var/lib/pgsql/15/data/log/*.log
 ```
 
 ## Important Notes

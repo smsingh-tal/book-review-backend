@@ -23,15 +23,24 @@ command_exists() {
 setup_database() {
     log "Setting up PostgreSQL database..."
     
+    # Detect the PostgreSQL version
+    if systemctl list-units --all | grep -q postgresql-15; then
+        PGSQL_VERSION="15"
+    else
+        PGSQL_VERSION="14"
+    fi
+    
+    log "Using PostgreSQL version $PGSQL_VERSION"
+    
     # Check if PostgreSQL is running
-    if ! systemctl is-active --quiet postgresql-14; then
+    if ! systemctl is-active --quiet postgresql-$PGSQL_VERSION; then
         error_log "PostgreSQL is not running. Starting PostgreSQL..."
-        sudo systemctl start postgresql-14
+        sudo systemctl start postgresql-$PGSQL_VERSION
     fi
     
     # Wait for PostgreSQL to be ready
     for i in {1..30}; do
-        if sudo -u postgres /usr/pgsql-14/bin/psql -c '\l' >/dev/null 2>&1; then
+        if sudo -u postgres /usr/pgsql-$PGSQL_VERSION/bin/psql -c '\l' >/dev/null 2>&1; then
             break
         fi
         log "Waiting for PostgreSQL to be ready... ($i/30)"
@@ -39,10 +48,10 @@ setup_database() {
     done
 
     # Create the database and set password
-    if ! sudo -u postgres /usr/pgsql-14/bin/psql -lqt | cut -d \| -f 1 | grep -qw book_review; then
+    if ! sudo -u postgres /usr/pgsql-$PGSQL_VERSION/bin/psql -lqt | cut -d \| -f 1 | grep -qw book_review; then
         log "Creating database and setting password..."
-        sudo -u postgres /usr/pgsql-14/bin/psql -c "ALTER USER postgres WITH PASSWORD 'postgres';" || { error_log "Failed to set postgres password"; exit 1; }
-        sudo -u postgres /usr/pgsql-14/bin/psql -c "CREATE DATABASE book_review;" || { error_log "Failed to create database"; exit 1; }
+        sudo -u postgres /usr/pgsql-$PGSQL_VERSION/bin/psql -c "ALTER USER postgres WITH PASSWORD 'postgres';" || { error_log "Failed to set postgres password"; exit 1; }
+        sudo -u postgres /usr/pgsql-$PGSQL_VERSION/bin/psql -c "CREATE DATABASE book_review;" || { error_log "Failed to create database"; exit 1; }
     else
         log "Database 'book_review' already exists"
     fi
@@ -57,16 +66,16 @@ setup_database() {
     # Run any initial data setup scripts if they exist
     if [ -f "init_db.sql" ]; then
         log "Running init_db.sql..."
-        sudo -u postgres /usr/pgsql-14/bin/psql -d book_review -f init_db.sql || { error_log "Failed to run init_db.sql"; exit 1; }
+        sudo -u postgres /usr/pgsql-$PGSQL_VERSION/bin/psql -d book_review -f init_db.sql || { error_log "Failed to run init_db.sql"; exit 1; }
     fi
     
     if [ -f "init_books.sql" ]; then
         log "Running init_books.sql..."
-        sudo -u postgres /usr/pgsql-14/bin/psql -d book_review -f init_books.sql || { error_log "Failed to run init_books.sql"; exit 1; }
+        sudo -u postgres /usr/pgsql-$PGSQL_VERSION/bin/psql -d book_review -f init_books.sql || { error_log "Failed to run init_books.sql"; exit 1; }
         
         # Verify data was loaded correctly
         log "Verifying book data was loaded correctly..."
-        BOOK_COUNT=$(sudo -u postgres /usr/pgsql-14/bin/psql -d book_review -t -c "SELECT COUNT(*) FROM books;")
+        BOOK_COUNT=$(sudo -u postgres /usr/pgsql-$PGSQL_VERSION/bin/psql -d book_review -t -c "SELECT COUNT(*) FROM books;")
         BOOK_COUNT=$(echo "$BOOK_COUNT" | tr -d '[:space:]')
         
         if [ "$BOOK_COUNT" -lt 1 ]; then
@@ -153,8 +162,8 @@ create_systemd_service() {
     cat << EOF | sudo tee /etc/systemd/system/bookreview.service
 [Unit]
 Description=Book Review Backend Service
-After=network.target postgresql-14.service
-Requires=postgresql-14.service
+After=network.target postgresql-${PGSQL_VERSION}.service
+Requires=postgresql-${PGSQL_VERSION}.service
 
 [Service]
 User=ec2-user
