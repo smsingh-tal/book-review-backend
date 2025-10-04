@@ -77,7 +77,22 @@ If you prefer to run each step individually:
 
 ## Testing PostgreSQL
 
-To test if PostgreSQL is running correctly:
+There are two options to test if PostgreSQL is running:
+
+### 1. Quick Check (Fast)
+
+For a quick status check that also attempts to fix simple issues:
+
+```bash
+chmod +x quick_check_postgresql.sh
+./quick_check_postgresql.sh
+```
+
+This provides a simple yes/no answer about whether PostgreSQL is running correctly.
+
+### 2. Comprehensive Test (Detailed)
+
+For a detailed diagnostic report:
 
 ```bash
 chmod +x test_postgresql.sh
