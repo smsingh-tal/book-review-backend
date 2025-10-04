@@ -19,6 +19,8 @@ This directory contains scripts for fixing and managing PostgreSQL on Amazon Lin
 
 ### Utilities
 - `check_and_free_port.sh`: Checks if a port (default 5432) is in use and optionally kills the process
+- `test_postgresql.sh`: Comprehensive script to test if PostgreSQL is running correctly
+- `quick_check_postgresql.sh`: Fast check to verify if PostgreSQL is running properly
 
 ## Usage
 
@@ -73,10 +75,27 @@ If you prefer to run each step individually:
    ./setup_application_database.sh
    ```
 
+## Testing PostgreSQL
+
+To test if PostgreSQL is running correctly:
+
+```bash
+chmod +x test_postgresql.sh
+./test_postgresql.sh
+```
+
+This script performs comprehensive tests:
+- Checks if the PostgreSQL service is running
+- Identifies which port PostgreSQL is listening on
+- Tests connections using pg_isready and psql
+- Checks for the existence of the application database and user
+- Examines logs for any errors
+
 ## Troubleshooting
 
 If you encounter issues:
 
-1. Check PostgreSQL logs: `sudo cat /tmp/postgresql.log`
-2. Check if the port is available: `./check_and_free_port.sh`
-3. Check if the PostgreSQL service is running: `sudo systemctl status postgresql`
+1. Run the test script first: `./test_postgresql.sh`
+2. Check PostgreSQL logs: `sudo cat /tmp/postgresql.log`
+3. Check if the port is available: `./check_and_free_port.sh`
+4. Check if the PostgreSQL service is running: `sudo systemctl status postgresql`
