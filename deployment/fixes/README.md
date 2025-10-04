@@ -7,6 +7,7 @@ This directory contains scripts for fixing and managing PostgreSQL on Amazon Lin
 ### Configuration Fixes
 - `fix_postgresql_config.sh`: Cleans up the PostgreSQL configuration file, removing duplicate entries and creating a properly formatted config
 - `fix_postgresql_config_direct.sh`: Simpler direct fix for PostgreSQL configuration issues
+- `update_postgresql_port.sh`: Updates the PostgreSQL service to use port 5432 instead of 5433
 
 ### Installation & Verification
 - `install_pg_client.sh`: Installs PostgreSQL client tools needed for commands like psql, pg_isready, etc.
@@ -28,7 +29,13 @@ Transfer these scripts to your EC2 instance, make them executable, and run them 
    sudo ./fix_postgresql_config.sh
    ```
 
-2. Restart PostgreSQL:
+2. Update PostgreSQL service to use port 5432 (standard port):
+   ```
+   chmod +x update_postgresql_port.sh
+   sudo ./update_postgresql_port.sh
+   ```
+
+3. Restart PostgreSQL:
    ```
    sudo systemctl restart postgresql
    ```
