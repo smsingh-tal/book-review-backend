@@ -141,7 +141,9 @@ resource "aws_instance" "app_server" {
   }
 
   root_block_device {
-    volume_size = 8  # Minimum size, staying within free tier
+    volume_size = 30  # Minimum size required for Amazon Linux 2023 AMI
+    volume_type = "gp3"  # General Purpose SSD, more cost-effective than gp2
+    delete_on_termination = true
   }
 }
 

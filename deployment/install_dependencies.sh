@@ -3,18 +3,22 @@
 # Update system packages
 sudo dnf update -y
 
-# Install PostgreSQL 14 (latest version available in Amazon Linux 2023 repositories)
-sudo dnf install -y postgresql14 postgresql14-server postgresql14-devel postgresql14-contrib
-sudo postgresql-setup --initdb --unit postgresql14
-sudo systemctl start postgresql14
-sudo systemctl enable postgresql14
+# Install PostgreSQL 14 on Amazon Linux 2023
+# Enable PostgreSQL repository
+sudo dnf install -y https://download.postgresql.org/pub/repos/yum/reporpms/EL-9-x86_64/pgdg-redhat-repo-latest.noarch.rpm
+
+# Install PostgreSQL 14 packages
+sudo dnf install -y postgresql14-server postgresql14 postgresql14-devel
+sudo /usr/pgsql-14/bin/postgresql-14-setup initdb
+sudo systemctl enable postgresql-14
+sudo systemctl start postgresql-14
 
 # Update PostgreSQL configuration to allow remote connections
 sudo sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/" /var/lib/pgsql/14/data/postgresql.conf
 echo "host    all             all             0.0.0.0/0               md5" | sudo tee -a /var/lib/pgsql/14/data/pg_hba.conf
 
 # Restart PostgreSQL to apply changes
-sudo systemctl restart postgresql14
+sudo systemctl restart postgresql-14
 
 # Install development tools and libraries required for Python compilation
 sudo dnf install -y gcc openssl-devel bzip2-devel libffi-devel zlib-devel wget make

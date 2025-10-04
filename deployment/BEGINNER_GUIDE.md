@@ -125,7 +125,11 @@ After successful deployment, Terraform will output the public IP address of your
 
 ## Part 4: Setting Up Your EC2 Environment (Amazon Linux 2023)
 
-The deployment uses Amazon Linux 2023, the latest AWS-native Linux distribution that is free tier eligible. Our setup includes PostgreSQL 14 and Python 3.11+ which is required for this application.
+The deployment uses Amazon Linux 2023, the latest AWS-native Linux distribution that is free tier eligible. Our setup includes:
+
+- Amazon Linux 2023 (requires 30GB disk space)
+- PostgreSQL 14 for the database
+- Python 3.11+ for the application runtime
 
 After your EC2 instance is running, connect to it:
 ```bash
@@ -135,11 +139,23 @@ ssh -i ~/.ssh/my-aws-key.pem ec2-user@<your-server-ip>
 
 ### 1. Install System Dependencies
 ```bash
-sudo yum update -y
-sudo yum install -y git gcc openssl-devel bzip2-devel libffi-devel zlib-devel wget make postgresql postgresql-server postgresql-devel postgresql-contrib
+sudo dnf update -y
+sudo dnf install -y git gcc openssl-devel bzip2-devel libffi-devel zlib-devel wget make
 ```
 
-### 2. Verify Python and PostgreSQL Installation
+### 2. Install PostgreSQL 14
+```bash
+# Install PostgreSQL repository
+sudo dnf install -y https://download.postgresql.org/pub/repos/yum/reporpms/EL-9-x86_64/pgdg-redhat-repo-latest.noarch.rpm
+
+# Install PostgreSQL 14
+sudo dnf install -y postgresql14-server postgresql14 postgresql14-devel
+sudo /usr/pgsql-14/bin/postgresql-14-setup initdb
+sudo systemctl enable postgresql-14
+sudo systemctl start postgresql-14
+```
+
+### 3. Verify Python and PostgreSQL Installation
 ```bash
 # Verify Python version
 python3 --version  # Should show Python 3.11.x
@@ -148,18 +164,18 @@ python3 --version  # Should show Python 3.11.x
 pip3 --version     # Should show pip for Python 3.11.x
 
 # Verify PostgreSQL installation
-psql --version     # Should show PostgreSQL 14.x
+/usr/pgsql-14/bin/psql --version  # Should show PostgreSQL 14.x
 ```
 
-### 3. Set Up PostgreSQL (local database)
+### 4. Set Up PostgreSQL (local database)
 ```bash
-# PostgreSQL 14 is already installed by our setup script
-sudo systemctl status postgresql14  # Verify that PostgreSQL is running
+# PostgreSQL 14 is now installed and running
+sudo systemctl status postgresql-14  # Verify that PostgreSQL is running
 
 # Allow password authentication and remote/local connections (if not already done by setup script)
 sudo sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/'" /var/lib/pgsql/14/data/postgresql.conf
 echo "host    all             all             0.0.0.0/0               md5" | sudo tee -a /var/lib/pgsql/14/data/pg_hba.conf
-sudo systemctl restart postgresql14
+sudo systemctl restart postgresql-14
 ```
 
 ### 4. Create and Activate Python Virtual Environment
@@ -204,15 +220,15 @@ fi
 
 ```bash
 # Set postgres user password
-sudo -u postgres psql -c "ALTER USER postgres WITH PASSWORD 'postgres';"
+sudo -u postgres /usr/pgsql-14/bin/psql -c "ALTER USER postgres WITH PASSWORD 'postgres';"
 
 # Create main application database
-sudo -u postgres psql -c "CREATE DATABASE book_review;"
-sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE book_review TO postgres;"
+sudo -u postgres /usr/pgsql-14/bin/psql -c "CREATE DATABASE book_review;"
+sudo -u postgres /usr/pgsql-14/bin/psql -c "GRANT ALL PRIVILEGES ON DATABASE book_review TO postgres;"
 
 # Create test database
-sudo -u postgres psql -c "CREATE DATABASE book_review_test;"
-sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE book_review_test TO postgres;"
+sudo -u postgres /usr/pgsql-14/bin/psql -c "CREATE DATABASE book_review_test;"
+sudo -u postgres /usr/pgsql-14/bin/psql -c "GRANT ALL PRIVILEGES ON DATABASE book_review_test TO postgres;"
 
 # Apply migrations safely with a modified approach for the second migration
 # Create a backup of the original migration script
@@ -360,6 +376,13 @@ Once installation is complete, you can access your application at:
 
 ## Part 4: Cost Management
 
+### Important Note About Storage Costs
+This deployment uses a 30GB root volume for the EC2 instance, which is required for the Amazon Linux 2023 AMI. While the t3.micro instance type is free tier eligible, be aware that:
+
+- Free tier includes 30GB of EBS storage, which covers our needs, but this is total across all volumes
+- We're using gp3 volume type which is more cost-effective than gp2
+- Remember to delete the resources when not in use to avoid unexpected charges
+
 ### 1. Stop Instance When Not in Use
 To avoid charges when not using the application:
 
@@ -411,10 +434,10 @@ sudo systemctl restart bookreview
 ### 3. Database Issues
 ```bash
 # Check PostgreSQL status
-sudo systemctl status postgresql
+sudo systemctl status postgresql-14
 
 # Check PostgreSQL logs
-sudo tail -f /var/log/postgresql/postgresql-*.log
+sudo tail -f /var/lib/pgsql/14/data/log/*.log
 ```
 
 ## Important Notes
