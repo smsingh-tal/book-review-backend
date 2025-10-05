@@ -29,7 +29,10 @@ class UserRegister(BaseModel):
 
 from fastapi import Body
 
-@router.post("/register")
+class RegisterResponse(Token):
+    message: str
+
+@router.post("/register", response_model=RegisterResponse)
 async def register(
     user: Optional[UserRegister] = None,
     name: Optional[str] = Form(None),
@@ -81,8 +84,16 @@ async def register(
                 detail="Error creating user - database error"
             )
         
+        # Create access token for the new user (auto-login)
+        access_token = create_access_token(
+            data={"sub": new_user.email}, 
+            expires_delta=timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+        )
+        
         return {
-            "message": "User created successfully"
+            "message": "User created successfully",
+            "access_token": access_token,
+            "token_type": "bearer"
         }
     except HTTPException as e:
         raise e
@@ -90,7 +101,7 @@ async def register(
         print(f"Error creating user: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
-@router.post("/register/json")
+@router.post("/register/json", response_model=RegisterResponse)
 async def register_json(user: UserRegister, db: Session = Depends(get_db)):
     """Register a new user using JSON data."""
     # Check if email already exists

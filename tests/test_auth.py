@@ -35,7 +35,10 @@ def test_register(client: TestClient, test_user: dict, db: Session):
         data={"name": "Test User", "username": unique_email, "password": test_user["password"]}
     )
     assert response.status_code == 200
-    assert response.json() == {"message": "User created successfully"}
+    response_data = response.json()
+    assert "message" in response_data and response_data["message"] == "User created successfully"
+    assert "access_token" in response_data
+    assert "token_type" in response_data and response_data["token_type"] == "bearer"
     # Verify user was created in database
     user = db.query(User).filter(User.email == unique_email).first()
     assert user is not None

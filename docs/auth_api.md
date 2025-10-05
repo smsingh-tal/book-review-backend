@@ -8,7 +8,7 @@ http://localhost:8000
 ## Available Endpoints
 
 ### 1. User Registration
-Register a new user account.
+Register a new user account and automatically receive an access token.
 
 **Endpoint:** `POST /auth/register`
 
@@ -25,6 +25,7 @@ password: string (min 8 characters, required)
 
 **Example Request:**
 ```typescript
+// Using form data
 const response = await axios.post('/auth/register', 
   new URLSearchParams({
     name: 'John Doe',
@@ -37,13 +38,29 @@ const response = await axios.post('/auth/register',
     }
   }
 );
+
+// Or using JSON
+const jsonResponse = await axios.post('/auth/register/json', 
+  {
+    name: 'John Doe',
+    username: 'user@example.com',
+    password: 'yourpassword123'
+  }, 
+  {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  }
+);
 ```
 
 
 **Success Response (200 OK):**
 ```json
 {
-  "message": "User created successfully"
+  "message": "User created successfully",
+  "access_token": "eyJhbGciOiJIUzI1NiIs...",
+  "token_type": "bearer"
 }
 ```
 
