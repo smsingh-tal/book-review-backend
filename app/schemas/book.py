@@ -6,7 +6,7 @@ class BookBase(BaseModel):
     title: str = Field(..., min_length=1, max_length=255)
     author: str = Field(..., min_length=1, max_length=255)
     isbn: str = Field(..., min_length=10, max_length=13)
-    genres: List[str] = Field(..., min_length=1)
+    genres: Optional[List[str]] = Field(default=[])
     publication_date: Optional[date] = None
     
 class BookCreate(BookBase):
