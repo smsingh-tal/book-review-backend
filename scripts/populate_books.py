@@ -111,15 +111,61 @@ BOOKS = [
 Session = sessionmaker(bind=engine)
 session = Session()
 
+import random
+
+def generate_isbn():
+    """Generate a random 13-digit ISBN"""
+    return ''.join([str(random.randint(0, 9)) for _ in range(13)])
+
+def get_default_genres(title, author):
+    """Assign default genres based on book title or author"""
+    # Simple genre assignment logic
+    genres = ["Fiction"]
+    
+    if any(keyword in title.lower() for keyword in ["1984", "neuromancer", "dune", "ubik"]):
+        genres.append("Science Fiction")
+    
+    if any(keyword in title.lower() for keyword in ["murder", "kill", "spy", "cold"]):
+        genres.append("Mystery")
+        
+    if "tolkien" in author.lower():
+        genres.append("Fantasy")
+        
+    return genres
+
 def main():
     # Optionally clear the table first
     session.query(Book).delete()
     session.commit()
+    print("Cleared existing books from database")
+    
+    books_added = 0
+    
     for title, author in BOOKS:
-        book = Book(title=title, author=author)
-        session.add(book)
-    session.commit()
-    print(f"Inserted {len(BOOKS)} books.")
+        try:
+            # Generate a random ISBN for each book
+            isbn = generate_isbn()
+            
+            # Assign default genres
+            genres = get_default_genres(title, author)
+            
+            book = Book(
+                title=title, 
+                author=author,
+                isbn=isbn,
+                genres=genres
+            )
+            session.add(book)
+            books_added += 1
+        except Exception as e:
+            print(f"Error adding book {title}: {e}")
+    
+    try:
+        session.commit()
+        print(f"Successfully inserted {books_added} books.")
+    except Exception as e:
+        session.rollback()
+        print(f"Failed to commit books to database: {e}")
 
 if __name__ == "__main__":
     main()
